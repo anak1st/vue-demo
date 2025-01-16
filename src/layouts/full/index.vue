@@ -3,15 +3,15 @@
     <NLayoutSider 
       collapse-mode="width"
       :collapsed-width="64"
-      :width="240"
+      :width="220"
       :collapsed="appStore.isCollapse"
-      class="border-r h-full"
+      class="border-r border-color h-full"
     >
       <AppSider />
     </NLayoutSider>
     <NLayout>
       <NLayoutHeader>
-        <AppHeader class="h-[60px] border-b" />
+        <AppHeader class="h-[60px] border-b border-color" />
         <AppTab />
       </NLayoutHeader>
       <NLayoutContent content-style="padding: 12px;">

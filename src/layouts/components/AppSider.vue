@@ -1,5 +1,5 @@
 <template>
-  <SiderLogo class="border-b h-[60px]" />
+  <SiderLogo class="h-[60px] border-b border-color" />
   <SiderMenu class="" />
 </template>
 
