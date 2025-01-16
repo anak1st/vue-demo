@@ -1,12 +1,26 @@
-
-
-export const basic_routes = [
+export const app_routes = [
   {
     path: '/login',
     name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('@/views/login/index.vue'),
+    meta: {
+      title: '登录',
+    }
   },
+  {
+    path: '/',
+    name: 'Root',
+    component: () => import('@/layouts/full/index.vue'),
+    children: [
+      {
+        path: '/',
+        name: 'Home',
+        component: () => import('@/views/home/index.vue'),
+        meta: {
+          title: '首页',
+          tab: true
+        }
+      } 
+    ]
+  }
 ]

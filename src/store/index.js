@@ -6,5 +6,3 @@ export function setupStore(app) {
   // pinia.use(piniaPluginPersistedstate)
   app.use(pinia)
 }
-
-export * from './modules'

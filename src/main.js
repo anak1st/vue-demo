@@ -1,11 +1,10 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 
 import App from './App.vue'
+import './main.css'
 
+import { setupStore } from './store'
 import { setupRouter } from './router'
-import { setupStore  } from './store'
 
 const app = createApp(App)
 
