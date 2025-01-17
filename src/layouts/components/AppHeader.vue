@@ -5,6 +5,7 @@
     </div>
     <div class="flex justify-end">
       <ToggleTheme  class="mr-3"/>
+      <Fullscreen   class="mr-3"/>
     </div>
   </div>
 </template>
@@ -12,5 +13,6 @@
 <script setup>
 import MenuCollapse from './buttons/MenuCollapse.vue';
 import ToggleTheme  from './buttons/ToggleTheme.vue';
+import Fullscreen   from './buttons/Fullscreen.vue';
 
 </script>

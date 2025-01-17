@@ -1,5 +1,8 @@
 <template>
-  <NButton circle @click="toggleDark">
+  <NButton 
+    circle 
+    @click="toggleDark"
+  >
     <template #icon>
       <NIcon>
         <template v-if="!isDark">

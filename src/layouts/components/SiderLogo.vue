@@ -1,7 +1,7 @@
 <template>
   <RouterLink to="/" class="flex justify-center items-center">
     <div class="h-8 w-8">
-      <img src="@/assets/naivelogo.svg" alt="Logo" />
+      <img src="/naivelogo.svg" alt="Logo" />
     </div>
     <div
       v-show="!appStore.isCollapse"
