@@ -22,17 +22,6 @@ pnpm build
 ```
 
 ## 后端
-如果需要测试后端，需要先启动后端服务
+如果需要测试前端的后端依赖部分，需要先启动后端服务
 
-依赖：
-- python3.10+
-- postgresql
-- redis
-- influxdb
-- ...
-
-
-```sh
-pip install -r ./requirements.txt
-python ./server/main.py
-```
+[文档](./server/README.md)
