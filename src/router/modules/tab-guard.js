@@ -3,7 +3,7 @@ import { useAppStore } from '@/store/modules/app'
 export function createTabGuard(router) {
   const appStore = useAppStore()
   router.afterEach((to) => {
-    if (to.meta?.tab !== true) {
+    if (to.meta?.canAddTab !== true) {
       return
     }
     const name = to.name

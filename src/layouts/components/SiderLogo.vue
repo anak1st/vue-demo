@@ -7,7 +7,7 @@
       v-show="!appStore.isCollapse"
       class="ml-1 font-bold text-base flex-shrink-0"
     >
-      {{ title }}
+      {{ APP_TITLE }}
   </div>
   </RouterLink>
 </template>
@@ -17,6 +17,6 @@ import { RouterLink } from 'vue-router'
 import { useAppStore } from '@/store/modules/app'
 const appStore = useAppStore()
 
-const title = import.meta.env.VITE_APP_TITLE
+const APP_TITLE = import.meta.env.VITE_APP_TITLE
 
 </script>

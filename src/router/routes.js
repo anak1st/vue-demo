@@ -18,7 +18,8 @@ export const app_routes = [
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          tab: true
+          canAddTab: true,
+          requireAuth: true
         }
       } 
     ]
