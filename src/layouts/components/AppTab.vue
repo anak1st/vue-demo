@@ -1,5 +1,5 @@
 <template>
-  <NTabs 
+  <n-tabs 
     class="mt-2"
     type='card'
     :value="appStore.activeTab"
@@ -7,15 +7,15 @@
     @close="(path) => appStore.removeTab(path)"
     :tabs-padding=10
   >
-    <NTab
+    <n-tab
       v-for="it in appStore.tabs"
       :key="it.path"
       :name="it.path"
       @click="onTabClick(it.path)"
     >
       {{ it.title }}
-    </NTab>
-  </NTabs>
+    </n-tab>
+  </n-tabs>
 </template>
 
 <script setup>

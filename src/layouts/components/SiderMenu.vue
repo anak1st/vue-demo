@@ -1,5 +1,5 @@
 <template>
-  <NMenu
+  <n-menu
     :collapsed-icon-size="24"
     :collapsed-width="64"
     :collapsed="appStore.isCollapse"

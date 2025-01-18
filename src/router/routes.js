@@ -5,23 +5,18 @@ export const app_routes = [
     component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录',
+      layout: 'empty',
     }
   },
   {
     path: '/',
-    name: 'Root',
-    component: () => import('@/layouts/full/index.vue'),
-    children: [
-      {
-        path: '/',
-        name: 'Home',
-        component: () => import('@/views/home/index.vue'),
-        meta: {
-          title: '首页',
-          canAddTab: true,
-          requireAuth: true
-        }
-      } 
-    ]
-  }
+    name: 'Home',
+    component: () => import('@/views/home/index.vue'),
+    meta: {
+      title: '首页',
+      layout: 'full',
+      canAddTab: true,
+      requireAuth: true
+    }
+  } 
 ]

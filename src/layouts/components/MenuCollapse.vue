@@ -1,12 +1,12 @@
 <template>
-  <NButton 
+  <n-button 
     strong secondary circle type="success"
     @click="appStore.switchCollapse"
   >
     <template #icon>
-      <NIcon><MenuIcon /></NIcon>
+      <n-icon><MenuIcon /></n-icon>
     </template>
-  </NButton>
+  </n-button>
 </template>
 
 <script setup>

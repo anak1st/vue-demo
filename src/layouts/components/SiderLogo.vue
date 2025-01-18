@@ -1,5 +1,5 @@
 <template>
-  <RouterLink to="/" class="flex justify-center items-center">
+  <router-link to="/" class="flex justify-center items-center">
     <div class="h-8 w-8">
       <img src="/naivelogo.svg" alt="Logo" />
     </div>
@@ -8,8 +8,8 @@
       class="ml-1 font-bold text-base flex-shrink-0"
     >
       {{ APP_TITLE }}
-  </div>
-  </RouterLink>
+    </div>
+  </router-link>
 </template>
 
 <script setup>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full w-full">
     <Hello class=" min-w-[350px] max-w-[500px]" />
   </div>
 </template>

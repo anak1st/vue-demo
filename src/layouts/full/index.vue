@@ -1,6 +1,6 @@
 <template>
-  <NLayout has-sider class="h-full w-full">
-    <NLayoutSider 
+  <n-layout has-sider class="h-full w-full">
+    <n-layout-sider 
       collapse-mode="width"
       :collapsed-width="64"
       :width="220"
@@ -8,27 +8,25 @@
       class="border-r border-color h-full"
     >
       <AppSider />
-    </NLayoutSider>
-    <NLayout>
-      <NLayoutHeader>
+    </n-layout-sider>
+    <n-layout>
+      <n-layout-header>
         <AppHeader class="h-[60px] border-b border-color" />
         <AppTab />
-      </NLayoutHeader>
-      <NLayoutContent content-style="padding: 12px;">
-        <RouterView />
-      </NLayoutContent>
-      <NLayoutFooter 
+      </n-layout-header>
+      <n-layout-content content-style="padding: 12px;">
+        <slot />
+      </n-layout-content>
+      <n-layout-footer 
         class="text-center"
       >
         Copyright © 2025 XiaFan
-      </NLayoutFooter>
-    </NLayout>
-  </NLayout>
+      </n-layout-footer>
+    </n-layout>
+  </n-layout>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { RouterView } from 'vue-router';
 import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
 import AppSider  from '@/layouts/components/AppSider.vue';
 import AppHeader from '@/layouts/components/AppHeader.vue';

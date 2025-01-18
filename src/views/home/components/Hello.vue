@@ -1,7 +1,7 @@
 <template>
-  <NCard>
+  <n-card>
     <div class="flex items-center">
-      <NAvatar round :size="80" src="/avatar.jpg" />
+      <n-avatar round :size="80" src="/avatar.jpg" />
       <div class="ml-4">
         <h1 class="text-2xl">
           Hello {{ userStore.username }}
@@ -17,7 +17,7 @@
         —— 查尔斯·史考伯
       </p>
     </div>
-  </NCard>
+  </n-card>
 </template>
 
 <script setup>

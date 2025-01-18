@@ -1,6 +1,5 @@
 export const LayoutSetting = {
-    full: {
-        showTab: true,
-    }
-    
+  full: {
+    showTab: true,
+  }
 }
