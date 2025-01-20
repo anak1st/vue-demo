@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 class User(BaseModel):
     username: str
+    diabled: bool = False
+    roles: dict = {}
 
     class Config:
         from_attributes = True
@@ -12,7 +14,8 @@ class UserInDB(User):
     hashed_password: str
 
 
-class UserCreate(User):
+class UserCreate(BaseModel):
+    username: str
     password: str
 
 

@@ -28,22 +28,22 @@ const theme = computed(() => {
   return isDark.value ? darkTheme : null;
 })
 
-const layouts = new Map()
+const Layouts = new Map()
 const getLayout = (name) => {
-  if (layouts.get(name)) {
-    return layouts.get(name)
+  if (!Layouts.get(name)) {
+    const layoutComponent = markRaw(defineAsyncComponent(() => import(`@/layouts/${name}/index.vue`)))
+    Layouts.set(name, layoutComponent)
   }
-  const layout = markRaw(defineAsyncComponent(() => import(`@/layouts/${name}/index.vue`)))
-  layouts.set(name, layout)
-  return layout
+  return Layouts.get(name)
 }
 
 const Layout = computed(() => {
-  const layout = route.meta?.layout
-  if (!layout) {
+  const layoutName = route.meta?.layout
+  if (!layoutName) {
    return null 
   }
-  return getLayout(layout)
+  console.log(layoutName)
+  return getLayout(layoutName)
 })
 
 </script>

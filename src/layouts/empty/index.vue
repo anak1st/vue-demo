@@ -1,6 +1,6 @@
 <template>
-  <n-layout has-sider class="h-full w-full">
-    <n-layout-content content-style="padding: 12px;">
+  <n-layout position="absolute" >
+    <n-layout-content position="absolute" class="m-2">
       <slot />
     </n-layout-content>
   </n-layout>

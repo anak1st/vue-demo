@@ -14,7 +14,7 @@
         <AppHeader class="h-[60px] border-b border-color" />
         <AppTab />
       </n-layout-header>
-      <n-layout-content content-style="padding: 12px;">
+      <n-layout-content class="m-2">
         <slot />
       </n-layout-content>
       <n-layout-footer 

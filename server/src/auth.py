@@ -10,16 +10,11 @@ import schemas
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-credentials_exception = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED,
-    detail="Could not validate credentials",
-    headers={"WWW-Authenticate": "Bearer"}, 
-)
 
 
 # get password hash
 def pwd_hash(password: str) -> str:
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt(11)).decode()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt(12)).decode()
 
 
 # check password
@@ -58,10 +53,17 @@ def get_user(token: str = Depends(oauth2_scheme)) -> schemas.User:
         payload = jwt.decode(token, cfg.jwt.secret_key, algorithms=["HS256"])
         username: str = payload.get("sub")
         if username is None:
-            raise credentials_exception
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     except:
-        raise credentials_exception
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     user = curd.get_user_by_username(username=username)
     if user is None:
-        raise credentials_exception
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    return user
+
+
+def get_admin_user(token: str = Depends(oauth2_scheme)) -> schemas.User:
+    user = get_user(token)
+    if user.roles.get("admin") != True:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
     return user

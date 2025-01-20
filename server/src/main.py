@@ -9,6 +9,13 @@ import schemas
 app = FastAPI()
 
 
+def OK(data):
+    return {"code": 0, "msg": "OK", "data": data}
+
+def ERROR(code, msg):
+    return {"code": code, "msg": msg}
+
+
 @app.post("/login")
 async def login(form_data: auth.OAuth2PasswordRequestForm = Depends()):
     if not auth.authenticate_user(form_data.username, form_data.password):
@@ -19,13 +26,34 @@ async def login(form_data: auth.OAuth2PasswordRequestForm = Depends()):
 @app.post("/users")
 async def create_user(user: schemas.UserCreate):
     if curd.get_user_by_username(user.username):
-        raise HTTPException(status_code=400, detail="Username already registered")
-    return curd.create_user(user.username, auth.pwd_hash(user.password))
+        return ERROR(101, "User already exists")
+    return OK(curd.create_user(user.username, user.password))
+
+
+@app.get("/users")
+async def read_users(offset: int = 0, limit: int = 100, user: schemas.User = Depends(auth.get_user)):
+    if limit < 0 or limit > 100:
+        return ERROR(101, "Limit must be between 0 and 100")
+    return OK(curd.get_users(offset, limit))
+
+
+@app.get("/users/{user_id}")
+async def read_user(user_id: int, user: schemas.User = Depends(auth.get_user)):
+    res = curd.get_user(user_id)
+    if not res:
+        return ERROR(101, "User not found")
+    return OK(res)
+
+
+@app.post("/users/{user_id}/roles")
+async def update_user_roles(user_id: int, roles: dict, user: schemas.User = Depends(auth.get_user)):
+    res = curd.update_user_roles(user_id, roles)
+    return OK(res)
 
 
 @app.get("/users/me")
-async def read_users_me(user: str = Depends(auth.get_user)):
-    return user
+async def read_users_me(user: schemas.User = Depends(auth.get_user)):
+    return OK(user)
 
 
 if __name__ == '__main__':

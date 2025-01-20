@@ -4,6 +4,29 @@ import database
 import schemas
 
 
+def create_user(username: str, hashed_password: str) -> schemas.User:
+    with Session(database.engine) as session:
+        user = database.User(username=username, hashed_password=hashed_password)
+        session.add(user)
+        session.commit()
+        session.refresh(user)
+        return schemas.User.model_validate(user)
+    
+
+def get_users(offset: int = 0, limit: int = 100) -> List[schemas.User]:
+    with Session(database.engine) as session:
+        res = session.query(database.User).offset(offset).limit(limit).all()
+        return [schemas.User.model_validate(user) for user in res]
+    
+
+def get_user_by_id(user_id: int) -> schemas.User:
+    with Session(database.engine) as session:
+        res = session.query(database.User).filter(database.User.id == user_id).first()
+        if res is None:
+            return None
+        return schemas.User.model_validate(res)
+
+
 def get_user_by_username(username: str) -> schemas.User:
     with Session(database.engine) as session:
         res = session.query(database.User).filter(database.User.username == username).first()
@@ -22,10 +45,10 @@ def get_userInDB_by_username(username: str) -> schemas.UserInDB:
         return schemas.UserInDB.model_validate(res)
 
 
-def create_user(username: str, hashed_password: str) -> schemas.User:
+def update_user_roles(user_id: int, roles: dict) -> schemas.User:
     with Session(database.engine) as session:
-        user = database.User(username=username, hashed_password=hashed_password)
-        session.add(user)
+        user = session.query(database.User).filter(database.User.id == user_id).first()
+        user.roles = roles
         session.commit()
         session.refresh(user)
         return schemas.User.model_validate(user)
