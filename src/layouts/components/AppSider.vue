@@ -1,9 +1,16 @@
 <template>
-  <SiderLogo class="h-[60px] border-b border-color" />
-  <SiderMenu class="" />
+  <n-layout>
+    <n-layout-header bordered >
+      <SiderLogo class="h-[60px]" />
+    </n-layout-header>
+    <n-layout-content>
+      <SiderMenu />
+    </n-layout-content>
+  </n-layout>
 </template>
 
 <script setup>
+import { NLayout, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
 import SiderLogo from '@/layouts/components/SiderLogo.vue'
 import SiderMenu from '@/layouts/components/SiderMenu.vue'
 

@@ -5,20 +5,26 @@
       :collapsed-width="64"
       :width="220"
       :collapsed="appStore.isCollapse"
-      class="border-r border-color h-full"
+      bordered
+      class="h-full"
     >
       <AppSider />
     </n-layout-sider>
-    <n-layout>
-      <n-layout-header>
-        <AppHeader class="h-[60px] border-b border-color" />
-        <AppTab />
+    <n-layout class="flex flex-col relative">
+      <n-layout-header bordered >
+        <AppHeader class="h-[60px]" />
       </n-layout-header>
-      <n-layout-content class="m-2">
-        <slot />
-      </n-layout-content>
-      <n-layout-footer 
-        class="text-center"
+      <!-- min-height := 100% - 60px (header height) - 25px (footer height) - [2~3]px (2 lines) -->
+      <n-layout embedded style="min-height: calc(100% - 60px - 25px - 3px);">
+        <n-layout-header bordered>
+          <AppTab />
+        </n-layout-header>
+        <n-layout-content embedded class="m-2">
+          <slot />
+        </n-layout-content>
+      </n-layout>
+      <n-layout-footer bordered
+        class="flex justify-center items-center h-[25px]"
       >
         Copyright © 2025 XiaFan
       </n-layout-footer>
@@ -34,5 +40,6 @@ import AppTab    from '@/layouts/components/AppTab.vue';
 import { useAppStore } from '@/store/modules/app';
 
 const appStore = useAppStore();
+
 
 </script>

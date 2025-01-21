@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div class="mx-3 flex items-center justify-between">
     <div class="flex justify-start">
-      <MenuCollapseBtn class="ml-3" />
+      <MenuCollapseBtn />
     </div>
     <!-- <slot /> -->
-    <div class="flex justify-end mr-3">
+    <div class="flex justify-end ">
       <ToggleThemeBtn class="mr-3"/>
       <FullscreenBtn  class="mr-3"/>
-      <UserInfo class="" />
+      <UserInfo />
     </div>
   </div>
 </template>

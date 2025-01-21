@@ -4,8 +4,8 @@ import { NIcon } from 'naive-ui'
 import {
   BookOutlined as BookIcon,
   HomeOutlined as HomeIcon,
+  WineBarFilled as WineIcon,
   PersonOutlined as PersonIcon,
-  WineBarFilled as WineIcon
 } from '@vicons/material'
 
 
@@ -20,14 +20,24 @@ export const menuOptions = [
       h(
         RouterLink,
         {
-          to: {
-            name: 'Home',
-          }
+          to: '/'
         },
         { default: () => '回家' }
       ),
     key: 'go-back-home',
     icon: renderIcon(HomeIcon)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/profile'
+        },
+        { default: () => '个人中心' }
+      ),
+    key: 'go-back-home',
+    icon: renderIcon(PersonIcon)
   },
   {
     key: 'divider-1',

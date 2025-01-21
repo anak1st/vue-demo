@@ -5,8 +5,6 @@ export const useAppStore = defineStore('app', {
     isDark: false,
     
     isCollapse: false,
-
-    layout: 'full',
     
     tabs: [],
     activeTabPath: '/',

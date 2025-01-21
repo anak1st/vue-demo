@@ -1,16 +1,16 @@
 <template>
-  <n-tabs 
-    class="mt-2"
-    type='card'
-    :value="appStore.activeTab"
+  <n-tabs type='card' 
+    :value="appStore.activeTab" 
     :closable="appStore.tabs.length > 1"
-    @close="(path) => appStore.removeTab(path)"
-    :tabs-padding=10
+    @close="(path) => appStore.removeTab(path)" 
+    :tabs-padding=0
+    class="custom-tabs p-[6px]"
+    size="small"
   >
-    <n-tab
-      v-for="it in appStore.tabs"
-      :key="it.path"
-      :name="it.path"
+    <n-tab 
+      v-for="it in appStore.tabs" 
+      :key="it.path" 
+      :name="it.path" 
       @click="onTabClick(it.path)"
     >
       {{ it.title }}
@@ -29,7 +29,30 @@ const appStore = useAppStore();
 const onTabClick = (path) => {
   appStore.setActiveTab(path);
   router.push(path);
-  console.log("click on tab, redirect to " + path);
+  console.log("Click tab, to " + path);
 }
 
 </script>
+
+<style scope>
+.custom-tabs {
+  .n-tabs-tab {
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+    border-radius: 4px !important;
+    border-width: 1px !important;
+  }
+
+  .n-tabs-tab--active {
+    border: 1px solid rgba(24, 160, 88, 0.4) !important;
+    background-color: rgba(24, 160, 88, 0.05) !important;
+  }
+
+  .n-tabs-pad,
+  .n-tabs-tab-pad,
+  .n-tabs-scroll-padding {
+    border: none !important;
+  }
+}
+
+</style>

@@ -13,18 +13,37 @@ export const useAuthStore = defineStore("auth", {
   }),
 
   getters: {
-    isLogin() {
-      return this.token && this.token.length > 0 && useUserStore().userInfo !== null;
-    }
+    
   },
 
   actions: {
+    async isLogin() {
+      if (!(this.token && this.token.length > 0)) {
+        return false;
+      }
+      
+      const userStore = useUserStore();
+      if (userStore.userInfo === null) {
+        saveToken(this.token);
+        try {
+          await userStore.getUserInfo(); 
+        } catch (e) {
+          console.error(e);
+          return false; 
+        }
+      }
+
+      return this.token && this.token.length > 0 && useUserStore().userInfo !== null;
+    },
+
+
     async register(username, password) {
       this.username = username;
       this.password = password;
       const res = await fetchRegister(username, password);
       return res;
     },
+
 
     async login(username, password) {
       this.username = username;
@@ -42,6 +61,7 @@ export const useAuthStore = defineStore("auth", {
       return res;
     },
 
+
     async logout() {
       this.token = "";
       removeToken();
@@ -49,6 +69,7 @@ export const useAuthStore = defineStore("auth", {
       useRouterStore().router.push("/login");
     },
 
+    
     async setToken(token) {
       if (!token) {
         throw new Error("token is empty");

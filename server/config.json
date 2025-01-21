@@ -7,6 +7,6 @@
     },
     "jwt": {
         "secret_key": "vue-demo",
-        "expire_minutes": 1
+        "expire_minutes": 60
     }
 }

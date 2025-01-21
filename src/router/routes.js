@@ -11,7 +11,7 @@ export const appRoutes = [
   },
   {
     path: '/register',
-    name: 'register',
+    name: 'Register',
     component: () => import('@/views/register/index.vue'),
     meta: {
       title: '注册',
@@ -29,5 +29,16 @@ export const appRoutes = [
       canAddTab: true,
       requireAuth: true
     }
-  } 
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/views/profile/index.vue'),
+    meta: {
+      title: '个人中心',
+      layout: 'full',
+      canAddTab: true,
+      requireAuth: true
+    }
+  }
 ]
