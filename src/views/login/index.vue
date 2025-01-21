@@ -1,8 +1,8 @@
 <template>
   <div class="h-full w-full flex items-center justify-center">
-    <NCard 
+    <n-card 
       title="登录"
-      class="max-w-[450px] min-w-[300px]"
+      class="max-w-[450px] min-w-[300px] min-h-[400px]"
     >
       <template #header-extra>
         <!-- #header-extra -->
@@ -23,20 +23,19 @@
               placeholder="请输入密码"
             />
           </n-form-item>
-          <div class="flex justify-center">
-            <n-button 
-              :disabled="disableClick" 
-              round 
-              type="primary" 
-              @click="OnClickLogin"
-            >
-              登录
-            </n-button>
-          </div>
         </n-form>
       </template>
       <template #footer>
-        <!-- #footer -->
+        <div class="flex justify-center">
+          <n-button 
+            :disabled="disableClick" 
+            round 
+            type="primary" 
+            @click="OnClickLogin"
+          >
+            登录
+          </n-button>
+        </div>
       </template>
       <template #action class="flex justify-center">
         <div>
@@ -46,18 +45,24 @@
           </n-button>
         </div>
       </template>
-    </NCard>
+    </n-card>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import { NCard, NForm, NFormItem, NButton, NInput } from 'naive-ui';
+import { NCard, NForm, NFormItem, NButton, NInput, useMessage } from 'naive-ui';
+import { useAuthStore } from '@/store/modules/auth'
+
+
+const message = useMessage();
+const authStore = useAuthStore();
+
 
 const model = ref({
-  age: null,
-  password: '',
+  username: authStore.username,
+  password: authStore.password,
 });
 
 const rules = {
@@ -74,22 +79,25 @@ const rules = {
 };
 
 
-const ok = () => {
+const disableClick = computed(() => {
   if (!model.value.username) {
-    return false;
+    return true;
   }
   if (!model.value.password) {
-    return false; 
+    return true; 
   }
-  return true;
-}
-
-const disableClick = computed(() => {
-  return !ok(); 
+  return false;
 })
 
-const OnClickLogin = () => {
-  console.log('OnClickLogin'); 
+
+const OnClickLogin = async () => {
+  try {
+    await authStore.login(model.value.username, model.value.password);
+    message.success('登录成功');
+  } catch (e) {
+    console.error(e);
+    message.error(e.message);
+  }
 }
 
 </script>

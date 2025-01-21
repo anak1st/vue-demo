@@ -53,12 +53,12 @@ def get_user(token: str = Depends(oauth2_scheme)) -> schemas.User:
         payload = jwt.decode(token, cfg.jwt.secret_key, algorithms=["HS256"])
         username: str = payload.get("sub")
         if username is None:
-            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials, No username")
     except:
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials, Failed to decode token")
     user = curd.get_user_by_username(username=username)
     if user is None:
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials, User not found")
     return user
 
 

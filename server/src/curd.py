@@ -5,6 +5,10 @@ import schemas
 
 
 def create_user(username: str, hashed_password: str) -> schemas.User:
+    # check password is hashed ?
+    if not hashed_password.startswith("$2b$"):
+        raise ValueError("Password is not hashed")
+
     with Session(database.engine) as session:
         user = database.User(username=username, hashed_password=hashed_password)
         session.add(user)

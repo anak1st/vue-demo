@@ -1,4 +1,4 @@
-export const app_routes = [
+export const appRoutes = [
   {
     path: '/login',
     name: 'Login',
@@ -6,6 +6,7 @@ export const app_routes = [
     meta: {
       title: '登录',
       layout: 'login',
+      requireAuth: false
     }
   },
   {
@@ -15,6 +16,7 @@ export const app_routes = [
     meta: {
       title: '注册',
       layout: 'login',
+      requireAuth: false
     }
   },
   {

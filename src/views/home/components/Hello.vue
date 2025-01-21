@@ -4,9 +4,9 @@
       <n-avatar round :size="80" src="/avatar.jpg" />
       <div class="ml-4">
         <h1 class="text-2xl">
-          Hello {{ userStore.username }}
+          Hello {{ authStore.username }}
         </h1>
-        <p class="opacity-80">当前角色：{{ userStore.role }}</p>
+        <p class="opacity-80">当前角色：{{ authStore.role }}</p>
       </div>
     </div>
     <p class="opacity-80 mt-3">
@@ -22,8 +22,8 @@
 
 <script setup>
 import { NCard, NAvatar } from 'naive-ui';
-import { useUserStore } from '@/store/modules/user';
+import { useAuthStore } from '@/store/modules/auth';
 
-const userStore = useUserStore();
+const authStore = useAuthStore();
 
 </script>

@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { app_routes } from './routes'
-import { createTabGuard } from './modules/tab-guard'
+import { appRoutes } from './routes'
+import { createTabGuard  } from './guards/tab'
+import { createAuthGuard } from './guards/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: app_routes
+  routes: appRoutes
 })
 
 export function setupRouter(app) {
   createTabGuard(router)
+  createAuthGuard(router)
 
   app.use(router)
 }

@@ -1,8 +1,8 @@
 <template>
   <n-layout position="absolute">
     <div class="fixed right-0 top-3 z-50">
-      <ToggleTheme class="mr-3" />
-      <Fullscreen  class="mr-3" />
+      <ToggleThemeBtn class="mr-3" />
+      <FullscreenBtn  class="mr-3" />
     </div>
     <n-layout-content position="absolute" class="m-2">
       <slot />
@@ -18,8 +18,8 @@
 
 <script setup>
 import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
-import ToggleTheme from '@/components/ToggleTheme.vue';
-import Fullscreen  from '@/components/Fullscreen.vue';
+import ToggleThemeBtn from '@/components/ToggleThemeBtn.vue';
+import FullscreenBtn  from '@/components/FullscreenBtn.vue';
 import { useAppStore } from '@/store/modules/app';
 
 const appStore = useAppStore();

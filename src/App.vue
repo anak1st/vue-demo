@@ -1,24 +1,26 @@
 <template>
-  <NConfigProvider 
+  <n-config-provider 
     :theme="theme"
     class="h-full w-full"
   >
-    <RouterView v-slot="{ Component }">
-      <component :is="Layout">
-        <transition>
-          <KeepAlive>
-            <component :is="Component" />
-          </KeepAlive>
-        </transition>
-      </component>
-    </RouterView>
-  </NConfigProvider>
+    <n-message-provider>
+      <router-view v-slot="{ Component }">
+        <component :is="Layout">
+          <transition>
+            <KeepAlive>
+              <component :is="Component" />
+            </KeepAlive>
+          </transition>
+        </component>
+      </router-view>
+    </n-message-provider>
+  </n-config-provider>
 </template>
 
 <script setup>
 import { ref, computed, KeepAlive, markRaw, defineAsyncComponent } from 'vue'
 import { RouterView, useRoute } from 'vue-router';
-import { NConfigProvider, darkTheme } from 'naive-ui';
+import { NConfigProvider, NMessageProvider, darkTheme } from 'naive-ui';
 import { useDark } from '@vueuse/core';
 
 const route = useRoute()
@@ -42,7 +44,7 @@ const Layout = computed(() => {
   if (!layoutName) {
    return null 
   }
-  console.log(layoutName)
+  console.log("Layout: ", layoutName)
   return getLayout(layoutName)
 })
 
