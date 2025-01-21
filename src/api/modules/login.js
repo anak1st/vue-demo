@@ -36,7 +36,7 @@ export const fetchLogin = async (username, password) => {
 
 export const fetchRegister = async (username, password) => {
   try {
-    const res = await api.post('/users', {
+    const res = await api.post('/users/create', {
       username,
       password
     })
