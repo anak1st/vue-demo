@@ -22,10 +22,29 @@ export const menuOptions = [
         {
           to: '/'
         },
-        { default: () => '回家' }
+        { default: () => '首页' }
       ),
     key: 'go-back-home',
     icon: renderIcon(HomeIcon)
+  },
+  {
+    label: '图表',
+    key: 'charts',
+    icon: renderIcon(BookIcon),
+    children: [
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: '/charts/system'
+            },
+            { default: () => '系统状态' }
+          ),
+        key: 'charts-system-status',
+        icon: renderIcon(BookIcon)
+      } 
+    ]
   },
   {
     label: () =>
@@ -34,7 +53,7 @@ export const menuOptions = [
         {
           to: '/profile'
         },
-        { default: () => '个人中心' }
+        { default: () => '个人信息' }
       ),
     key: 'go-back-home',
     icon: renderIcon(PersonIcon)

@@ -1,7 +1,7 @@
 <template>
   <n-layout>
     <n-layout-header bordered >
-      <SiderLogo class="h-[60px]" />
+      <SiderLogo class="h-[50px]" />
     </n-layout-header>
     <n-layout-content>
       <SiderMenu />

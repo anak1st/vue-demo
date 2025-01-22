@@ -1,8 +1,8 @@
 <template>
   <n-layout position="absolute">
-    <div class="fixed right-0 top-3 z-50">
+    <div class="fixed flex items-center right-0 h-[50px] mr-3 z-50">
       <ToggleThemeBtn class="mr-3" />
-      <FullscreenBtn  class="mr-3" />
+      <FullscreenBtn  />
     </div>
     <n-layout-content embedded position="absolute" class="m-2">
       <slot />

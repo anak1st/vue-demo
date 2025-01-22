@@ -35,10 +35,36 @@ export const appRoutes = [
     name: 'Profile',
     component: () => import('@/views/profile/index.vue'),
     meta: {
-      title: '个人中心',
+      title: '个人信息',
       layout: 'full',
       canAddTab: true,
       requireAuth: true
     }
-  }
+  },
+  {
+    path: '/charts',
+    name: 'Charts',
+    children: [
+      {
+        path: 'system',
+        name: 'System',
+        component: () => import('@/views/charts/system/index.vue'),
+        meta: {
+          title: '系统状态',
+          layout: 'full',
+          canAddTab: true,
+          requireAuth: true
+        }
+      },
+    ]
+  },
+  {
+    name: '404',
+    path: '/404',
+    component: () => import('@/views/error-page/404.vue'),
+    meta: {
+      title: '页面飞走了',
+      layout: 'empty',
+    },
+  },
 ]

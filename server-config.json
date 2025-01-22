@@ -11,8 +11,8 @@
   },
   "influxdb": {
     "url": "http://127.0.0.1:8086",
-    "token": "",
+    "token": "o1CdhcjisTtWcYyxPWy4RuOFSBQ4dEEAakQm8_vsehjTGVqZaZQd0cPBzTzC-6A_0kBGfnXSW4gQ5-UH_IyPcg==",
     "org": "noorg",
-    "bucket": "vue-dempo"
+    "bucket": "vue-demo"
   }
 }

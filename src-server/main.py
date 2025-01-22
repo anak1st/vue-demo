@@ -1,14 +1,24 @@
 import config_logger
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 import uvicorn
 from config import cfg
 import auth
 import curd
 import schemas
+from scheduler import scheduler
+import system_status
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    scheduler.start()
+    yield
+    scheduler.shutdown(wait=False)
+
+
+app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -63,6 +73,11 @@ async def update_user_roles(user_id: int, roles: dict, user: schemas.User = Depe
 @app.get("/users/me")
 async def read_user_me(user: schemas.User = Depends(auth.get_user)):
     return OK(user)
+
+
+@app.get("/system_status")
+async def read_system_status(second: int = 10, window_second = None, user: schemas.User = Depends(auth.get_user)):
+    return OK(await system_status.get_system_status(second, window_second))
 
 
 if __name__ == '__main__':

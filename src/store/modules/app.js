@@ -1,41 +1,51 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-export const useAppStore = defineStore('app', {
-  state: () => ({
-    isDark: false,
-    
-    isCollapse: false,
-    
-    tabs: [],
-    activeTabPath: '/',
-    defaultTabPath: '/'
-  }),
 
-  actions: {
-    switchCollapse() {
-      this.isCollapse = !this.isCollapse
-    },
+export const useAppStore = defineStore('app', () => {
+  const isDark = ref(false);
+  const isCollapse = ref(false);
+  const tabs = ref([]);
+  const activeTabPath = ref('/');
 
-    // tab = { path, title }
-    addTab(tab) {
-      const findIndex = this.tabs.findIndex(item => item.path === tab.path)
-      if (findIndex !== -1) {
-        this.tabs.splice(findIndex, 1, tab)
-      } else {
-        this.tabs.push(tab)
-      }
-      this.activeTabPath = tab.path
-    },
+  const switchCollapse = () => {
+    isCollapse.value = !isCollapse.value;
+  };
 
-    removeTab(path) {
-      this.tabs = this.tabs.filter(t => t.path !== path)
-      if (this.activeTabPath === path) {
-        this.activeTabPath = this.tabs.length > 0 ? this.tabs[this.tabs.length - 1].path : defaultTabPath 
-      }
-    },
-
-    setActiveTab(path) {
-      this.activeTabPath = path
+  // tab = { path, title }
+  const addTab = (tab) => {
+    const findIndex = tabs.value.findIndex(item => item.path === tab.path);
+    if (findIndex !== -1) {
+      tabs.value.splice(findIndex, 1, tab);
+    } else {
+      tabs.value.push(tab);
     }
+    activeTabPath.value = tab.path;
+  };
+
+  const removeTab = (path) => {
+    tabs.value = tabs.value.filter(t => t.path !== path)
+    if (activeTabPath.value === path) {
+      const len = tabs.value.length;
+      const nextIndex = len > 0 ? tabs.value[len - 1].path : '/';
+      activeTabPath.value = nextIndex;
+      return nextIndex;
+    }
+    return null;
+  };
+
+  const setActiveTab = (path) => {
+    activeTabPath.value = path;
+  };
+
+  return { 
+    isDark, 
+    isCollapse, 
+    tabs, 
+    activeTabPath, 
+    switchCollapse, 
+    addTab, 
+    removeTab, 
+    setActiveTab 
   }
 })

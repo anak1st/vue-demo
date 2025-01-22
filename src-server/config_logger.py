@@ -3,16 +3,16 @@ import colorlog
 
 
 formatter = logging.Formatter(
-    "{asctime} | {levelname:^8s} | [{name}] {message}",
+    "{asctime} | {levelname:^8s} [{name}] {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 
 
 formatterColored = colorlog.ColoredFormatter(
-    "{log_color}{asctime} | {levelname:^8s} | [{name}] {message}{reset}",
+    "{log_color}{asctime} | {levelname:^8s} [{name}] {message}{reset}",
     log_colors={
-        'DEBUG': 'black',
+        'DEBUG': 'light_black',
         'INFO': 'white',
         'WARNING': 'yellow',
         'ERROR': 'red',
@@ -31,4 +31,5 @@ def config_logger(logger, level):
     logger.addHandler(streamHandler)
 
 
-config_logger(logging.getLogger(), logging.DEBUG)
+config_logger(logging.getLogger(), logging.INFO)
+logging.getLogger("apscheduler.executors.default").setLevel(logging.WARNING)

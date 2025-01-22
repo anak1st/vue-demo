@@ -3,7 +3,7 @@ import { appRoutes } from './routes'
 import { createTabGuard  } from './guards/tab'
 import { createAuthGuard } from './guards/auth'
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: appRoutes
 })

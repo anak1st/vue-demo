@@ -1,19 +1,25 @@
 import { api } from "@/api/axios";
 
 
-export const saveToken = (token) => {
-  if (!token) {
-   throw new Error("token is empty"); 
+export function useToken() {
+  const set = (token) => {
+    if (!token) {
+      throw new Error("token is empty");
+    }
+    if (token.length < 20) {
+      throw new Error("token is too short");
+    }
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
-  if (token.length < 20) {
-    throw new Error("token is too short"); 
+
+  const remove = () => {
+    delete api.defaults.headers.common['Authorization'];
   }
-  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
 
-
-export const removeToken = () => {
-  delete api.defaults.headers.common['Authorization'];
+  return {
+    set,
+    remove
+  }
 }
 
 

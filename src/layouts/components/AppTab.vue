@@ -1,8 +1,8 @@
 <template>
   <n-tabs type='card' 
-    :value="appStore.activeTab" 
+    :value="appStore.activeTabPath" 
     :closable="appStore.tabs.length > 1"
-    @close="(path) => appStore.removeTab(path)" 
+    @close="onTabClose" 
     :tabs-padding=0
     class="custom-tabs p-[6px]"
     size="small"
@@ -32,11 +32,20 @@ const onTabClick = (path) => {
   console.log("Click tab, to " + path);
 }
 
+const onTabClose = (path) => {
+  const nextPath = appStore.removeTab(path);
+  if (nextPath) {
+    router.push(nextPath);
+    console.log("Close tab, to " + path);
+  }
+}
+
 </script>
 
 <style scope>
 .custom-tabs {
   .n-tabs-tab {
+    height: 32px;
     margin-left: 2px !important;
     margin-right: 2px !important;
     border-radius: 4px !important;

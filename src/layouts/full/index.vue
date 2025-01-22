@@ -12,10 +12,10 @@
     </n-layout-sider>
     <n-layout class="flex flex-col relative">
       <n-layout-header bordered >
-        <AppHeader class="h-[60px]" />
+        <AppHeader class="h-[50px]" />
       </n-layout-header>
       <!-- min-height := 100% - 60px (header height) - 25px (footer height) - [2~3]px (2 lines) -->
-      <n-layout embedded style="min-height: calc(100% - 60px - 25px - 3px);">
+      <n-layout embedded style="min-height: calc(100% - 50px - 25px - 3px);">
         <n-layout-header bordered>
           <AppTab />
         </n-layout-header>

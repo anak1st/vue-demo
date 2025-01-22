@@ -1,88 +1,100 @@
 import { defineStore } from "pinia";
+import { ref } from "vue";
+import { router } from "@/router";
 import { useUserStore } from "./user";
-import { useRouterStore } from "./router";
-import { fetchLogin, fetchRegister, saveToken, removeToken } from "@/api/modules/login";
+import { fetchLogin, fetchRegister, useToken } from "@/api/modules/login";
 
 
-export const useAuthStore = defineStore("auth", {
-  state: () => ({
-    username: "", // only for login
-    password: "", // only for login
-    token: "",
-    redirect: "",
-  }),
+export const useAuthStore = defineStore("auth", () => {
+  const username = ref("");
+  const password = ref("");
+  const token = ref("");
+  const redirect = ref("");
 
-  getters: {
+  const userStore = useUserStore();
+  const tokenApi = useToken();
+
+
+  const isLogin = async () => {
+    if (!(token.value && token.value.length > 0)) {
+      return false;
+    }
     
-  },
-
-  actions: {
-    async isLogin() {
-      if (!(this.token && this.token.length > 0)) {
-        return false;
+    if (userStore.userInfo === null) {
+      setToken(token.value);
+      try {
+        await userStore.getUserInfo(); 
+      } catch (e) {
+        console.error(e);
+        return false; 
       }
-      
-      const userStore = useUserStore();
-      if (userStore.userInfo === null) {
-        saveToken(this.token);
-        try {
-          await userStore.getUserInfo(); 
-        } catch (e) {
-          console.error(e);
-          return false; 
-        }
-      }
+    }
 
-      return this.token && this.token.length > 0 && useUserStore().userInfo !== null;
-    },
+    return token.value && token.value.length > 0 && userStore.userInfo !== null;
+  };
 
 
-    async register(username, password) {
-      this.username = username;
-      this.password = password;
-      const res = await fetchRegister(username, password);
-      return res;
-    },
+  const register = async (username_, password_) => {
+    username.value = username_;
+    password.value = password_;
+    const res = await fetchRegister(username.value, password.value);
+    return res;
+  };
 
 
-    async login(username, password) {
-      this.username = username;
-      this.password = password;
-      const res = await fetchLogin(username, password);
-      this.token = res.access_token;
-      saveToken(this.token);
-      await useUserStore().getUserInfo();
-      
-      if (this.redirect && this.redirect.length > 0) {
-        useRouterStore().router.push(this.redirect);
-        this.redirect = ""; 
-      }
-      useRouterStore().router.push("/");
-      return res;
-    },
-
-
-    async logout() {
-      this.token = "";
-      removeToken();
-      useUserStore().$reset();
-      useRouterStore().router.push("/login");
-    },
-
+  const login = async (username_, password_) => {
+    username.value = username_;
+    password.value = password_;
+    const res = await fetchLogin(username.value, password.value);
+    token.value = res.access_token;
+    setToken(token.value);
+    await userStore.getUserInfo();
     
-    async setToken(token) {
-      if (!token) {
-        throw new Error("token is empty");
-      }
-      if (token.length < 20) {
-        throw new Error("token is too short"); 
-      }
-      this.token = token;
-      saveToken(token);
-    },
-  },
+    if (redirect.value && redirect.value.length > 0) {
+      router.push(redirect.value);
+      redirect.value = ""; 
+    }
+    router.push("/");
+    return res;
+  };
 
-  persist: {
+
+  const logout = () => {
+    token.value = "";
+    removeToken();
+    userStore.logout();
+    router.push("/login");
+  };
+
+  const setToken = (token_) => {
+    if (!token_) {
+      throw new Error("token is empty");
+    }
+    if (token_.length < 20) {
+      throw new Error("token is too short"); 
+    }
+    token.value = token_;
+    tokenApi.set(token.value);
+  };
+
+  const removeToken = () => {
+    token.value = "";
+    tokenApi.remove();
+  };
+
+  
+  return {
+    username,
+    password,
+    token,
+    redirect,
+    isLogin,
+    register, 
+    login,
+    logout
+  }
+}, {
+    persist: {
     storage: localStorage,
     pick: ["token", "username", "password"],
   },

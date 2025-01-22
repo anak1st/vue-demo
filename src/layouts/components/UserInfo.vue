@@ -21,6 +21,7 @@
 
 <script setup>
 import { h } from 'vue';
+import { useRouter } from 'vue-router';
 import { NIcon, NDropdown, useMessage } from 'naive-ui';
 import { 
   LogOutOutlined as LogoutIcon,
@@ -32,6 +33,7 @@ import { useUserStore } from '@/store/modules/user';
 import { useAuthStore } from '@/store/modules/auth';
 
 
+const router = useRouter();
 const message = useMessage();
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -44,7 +46,7 @@ function renderIcon(icon) {
 
 const options = [
   {
-    label: '个人资料',
+    label: '个人信息',
     key: 'profile',
     icon: () => renderIcon(PersonIcon),
   },
@@ -64,14 +66,15 @@ const options = [
 const handleSelect = (key) => {
   switch (key) {
     case 'profile':
-      message.info('个人资料');
+      message.info('个人信息');
+      router.push('/profile');
       break;
     case 'switchRole':
       message.info('切换角色');
       break;
     case 'logout':
-      authStore.logout();
       message.info('退出登录');
+      authStore.logout();
       break;
   }
 };
