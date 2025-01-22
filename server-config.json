@@ -9,7 +9,7 @@
     "secret_key": "vue-demo",
     "expire_minutes": 60
   },
-  "influxdb_local": {
+  "influxdb": {
     "url": "http://127.0.0.1:8086",
     "token": "",
     "org": "noorg",
