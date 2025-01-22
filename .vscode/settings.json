@@ -8,7 +8,7 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "terminal.integrated.defaultProfile.windows": "conda_web",
+  // "terminal.integrated.defaultProfile.windows": "conda_web",
   "terminal.integrated.profiles.windows": {
     "conda_web": {
       "source": "PowerShell",

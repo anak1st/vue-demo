@@ -18,7 +18,6 @@ export const removeToken = () => {
 
 
 export const fetchLogin = async (username, password) => {
-  
   try {
     const form = new FormData();
     form.append('username', username);

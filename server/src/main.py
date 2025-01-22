@@ -1,3 +1,4 @@
+import config_logger
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -65,4 +66,4 @@ async def read_user_me(user: schemas.User = Depends(auth.get_user)):
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host='0.0.0.0', port=cfg.port, reload=True)
+    uvicorn.run('main:app', host='0.0.0.0', port=cfg.port, log_config=None)

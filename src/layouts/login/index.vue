@@ -4,22 +4,20 @@
       <ToggleThemeBtn class="mr-3" />
       <FullscreenBtn  class="mr-3" />
     </div>
-    <n-layout-content position="absolute" class="m-2">
+    <n-layout-content embedded position="absolute" class="m-2">
       <slot />
     </n-layout-content>
-    <n-layout-footer 
-      position="absolute"
-      class="text-center"
-    >
-      Copyright © 2025 XiaFan
-    </n-layout-footer >
+    <n-layout-footer bordered position="absolute" class="bottom-0">
+      <AppFooter />
+    </n-layout-footer>
   </n-layout>
 </template>
 
 <script setup>
-import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
+import { NLayout, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
 import ToggleThemeBtn from '@/components/ToggleThemeBtn.vue';
 import FullscreenBtn  from '@/components/FullscreenBtn.vue';
+import AppFooter from '@/layouts/components/AppFooter.vue';
 import { useAppStore } from '@/store/modules/app';
 
 const appStore = useAppStore();

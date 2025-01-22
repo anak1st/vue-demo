@@ -23,10 +23,8 @@
           <slot />
         </n-layout-content>
       </n-layout>
-      <n-layout-footer bordered
-        class="flex justify-center items-center h-[25px]"
-      >
-        Copyright © 2025 XiaFan
+      <n-layout-footer bordered>
+        <AppFooter />
       </n-layout-footer>
     </n-layout>
   </n-layout>
@@ -37,6 +35,7 @@ import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } f
 import AppSider  from '@/layouts/components/AppSider.vue';
 import AppHeader from '@/layouts/components/AppHeader.vue';
 import AppTab    from '@/layouts/components/AppTab.vue';
+import AppFooter from '@/layouts/components/AppFooter.vue';
 import { useAppStore } from '@/store/modules/app';
 
 const appStore = useAppStore();

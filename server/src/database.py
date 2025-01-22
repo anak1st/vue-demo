@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 from sqlalchemy import create_engine
 from sqlalchemy import BigInteger, String, JSON, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -18,5 +20,11 @@ class User(Base):
     roles: Mapped[dict] = mapped_column(JSON, default={})
 
 
-engine = create_engine(cfg.database_url)
-Base.metadata.create_all(engine)
+try:
+    engine = create_engine(cfg.database_url)
+    Base.metadata.create_all(engine)
+    logger.info("Start Database Success")
+except Exception as e:
+    logger.error("Start Database Error, please check your database config and status:")
+    logger.error(e)
+    exit(1)
