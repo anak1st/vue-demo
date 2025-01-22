@@ -23,7 +23,6 @@ class User(Base):
 try:
     engine = create_engine(cfg.database_url)
     Base.metadata.create_all(engine)
-    logger.info("Start Database Success")
 except Exception as e:
     logger.error("Start Database Error, please check your database config and status:")
     logger.error(e)

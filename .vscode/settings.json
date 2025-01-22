@@ -10,7 +10,7 @@
   },
   // "terminal.integrated.defaultProfile.windows": "conda_web",
   "terminal.integrated.profiles.windows": {
-    "conda_web": {
+    "conda-web": {
       "source": "PowerShell",
       "icon": "terminal-powershell",
       "args": ["-NoExit", "-Command", "Start-Conda; conda activate web"]
