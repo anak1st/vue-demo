@@ -75,6 +75,7 @@ const model = ref({
   passwordRe: '',
 });
 
+
 const rules = {
   username: {
     required: true,
@@ -114,6 +115,7 @@ const disableClick = computed(() => {
   }
   return false;
 })
+
 
 const OnClickRegister = async () => {
   try {

@@ -53,11 +53,11 @@ def add_schedule_task():
 add_schedule_task()
 
 
-async def get_system_status(second = 10, window_second = None):
+async def get_system_status(second = 10, aggregate_window = None):
     """
     获取系统状态
     :param second: 秒数
-    :param window_second: 窗口大小
+    :param aggregate_window: 聚合窗口，单位秒
     :return: 系统状态列表
     """
 
@@ -65,8 +65,8 @@ async def get_system_status(second = 10, window_second = None):
             f"|> range(start: -{second}s) " \
             f"|> filter(fn: (r) => r.host == \"localhost\") "
     
-    if window_second is not None:
-        query += f"|> aggregateWindow(every: {window_second}s, fn: mean) "
+    if aggregate_window is not None:
+        query += f"|> aggregateWindow(every: {aggregate_window}s, fn: mean) "
 
     response = await asyncio.to_thread(influxdbc.query_api.query, query)
     

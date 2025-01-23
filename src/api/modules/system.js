@@ -2,12 +2,12 @@ import { api } from "@/api/axios";
 import { useAuthStore } from "@/store/modules/auth";
 
 
-export const fetchSystemStatus = async (second, window_second) => {
+export const fetchSystemStatus = async (second, aggregate_window) => {
   try {
     let res = await api.get('/system_status', {
       params: {
         second: second,
-        window_second: window_second
+        aggregate_window: aggregate_window
       }
     });
     if (res.data.code !== 0) {

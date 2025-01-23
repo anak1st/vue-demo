@@ -1,14 +1,33 @@
 <template>
   <div class="h-full w-full">
-    <n-card class=" h-[400px] w-[1000px]">
-      <v-chart :option="op" :theme="theme" autoresize  />
+    <n-card title="系统状态">
+      <v-chart class="h-[300px]" :option="option" :theme="theme" autoresize  />
+      <template #action>
+        <div class="flex justify-end items-center gap-4">
+          <div> 选择时间 </div>
+          <n-select 
+            v-model:value="seconds"  
+            :options="selectSecondsOption" 
+            size="small"
+            class="w-[100px]"
+          />
+          <div> 选择聚合窗口 </div>
+          <n-select 
+            v-model:value="aggregate_window" 
+            :options="selectAggregateWindowOption"
+            size="small" 
+            class="w-[100px]"
+          />
+        </div>
+        
+      </template>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue';
-import { NCard, useMessage } from 'naive-ui';
+import { ref, computed, onBeforeUnmount, watch } from 'vue';
+import { NCard, NSelect, useMessage } from 'naive-ui';
 import { useDark } from '@vueuse/core';
 import * as echarts from 'echarts/core'
 // 引入柱状图图表，图表后缀都为 Chart
@@ -26,8 +45,8 @@ import {
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
 import { CanvasRenderer } from 'echarts/renderers';
-import VChart, { THEME_KEY } from 'vue-echarts';
-import { option, updateOption } from './data';
+import VChart from 'vue-echarts';
+import { fetchSystemStatus } from '@/api/modules/system';
 
 
 const message = useMessage();
@@ -49,7 +68,145 @@ echarts.use([
 ]);
 
 
-const op = ref(option);
+const colorMap = {
+  blue: '#37a2da',
+  red: '#9fe6b8',
+  yellow: '#fedb5c',
+  green: '#fb7293',
+  purple: '#e7bcf3',
+}
+
+
+const blue = () => colorMap.blue
+const red = () => colorMap.red
+const yellow = () => colorMap.yellow
+const green = () => colorMap.green
+const purple = () => colorMap.purple
+
+
+const areaStyle = (c) => {
+  return {
+    color: {
+      type: 'linear',
+      x: 0,
+      y: 0,
+      x2: 0,
+      y2: 1,
+      colorStops: [
+        {
+          offset: 0.25,
+          color: c
+        },
+        {
+          offset: 1,
+          color: 'rgba(0, 0, 0, 0)'
+        }
+      ]
+    }
+  } 
+}
+
+
+const option = ref({
+  tooltip: {
+    trigger: 'axis',
+    valueFormatter: (value) => value.toFixed(1)
+  },
+  legend: {
+    data: ['CPU 使用率', '内存使用率'],
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    data: [],
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: 'CPU 使用率',
+      type: 'line',
+      stack: 'Total',
+      data: [],
+      color: blue(),
+      areaStyle: areaStyle(blue())
+    },
+    {
+      name: '内存使用率',
+      type: 'line',
+      stack: 'Total',
+      data: [],
+      color: red(),
+      areaStyle: areaStyle(red())
+    }
+  ],
+  backgroundColor: 'transparent',
+});
+
+
+const updateOption = async (seconds, aggregate_window) => {
+  try {
+    const res = await fetchSystemStatus(seconds, aggregate_window);
+    const cpu_usage = res.cpu_usage.map((item) => item.value);
+    console.log(res);
+    const memory_usage = res.memory_usage.map((item) => item.value);
+    const time = res.cpu_usage.map((item) => item.localtime);
+
+    option.value.series[0].data = cpu_usage;
+    option.value.series[1].data = memory_usage;
+    option.value.xAxis.data = time;
+  } catch (e) {
+    message.error(error.message); 
+  }
+}
+
+
+const seconds = ref(600);
+const aggregate_window = ref(10);
+
+
+const selectSecondsOption = [
+  {
+    label: '1 分钟',
+    value: 60,
+  },
+  {
+    label: '10 分钟',
+    value: 600
+  },
+  {
+    label: '30 分钟',
+    value: 1800
+  },
+  {
+    label: '1 小时',
+    value: 3600 
+  }
+]
+
+
+const selectAggregateWindowOption = [
+  {
+    label: '5 秒',
+    value: 5
+  }, 
+  {
+    label: '10 秒',
+    value: 10 
+  },
+  {
+    label: '30 秒',
+    value: 30 
+  }
+]
+
 
 
 const theme = computed(() => {
@@ -58,12 +215,16 @@ const theme = computed(() => {
 
 
 const task = async () => {
-  try {
-    await updateOption(op.value); 
-  } catch (error) {
-    message.error(error.message); 
-  }
+  await updateOption(seconds.value, Math.min(seconds.value, aggregate_window.value));
 }
+
+
+watch(seconds, async (newValue) => {
+  await task();
+})
+watch(aggregate_window, async (newValue) => {
+  await task();
+})
 
 
 task();

@@ -76,8 +76,8 @@ async def read_user_me(user: schemas.User = Depends(auth.get_user)):
 
 
 @app.get("/system_status")
-async def read_system_status(second: int = 10, window_second = None, user: schemas.User = Depends(auth.get_user)):
-    return OK(await system_status.get_system_status(second, window_second))
+async def read_system_status(second: int = 10, aggregate_window = None, user: schemas.User = Depends(auth.get_user)):
+    return OK(await system_status.get_system_status(second, aggregate_window))
 
 
 if __name__ == '__main__':
