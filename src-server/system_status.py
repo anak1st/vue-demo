@@ -33,7 +33,11 @@ def report_system_status(cpu_usage, memory_usage):
         .field("cpu_usage", cpu_usage)
         .field("memory_usage", memory_usage)
     )
-    influxdbc.write_api.write(bucket=cfg.influxdb.bucket, record=point)
+    try:
+        influxdbc.write_api.write(bucket=cfg.influxdb.bucket, record=point)
+    except Exception as e:
+        logger.error(f"Report to influxdb failed, please check your influxdb config")
+        logger.error(e)
 
 
 async def async_report_system_status():

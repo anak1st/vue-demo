@@ -24,12 +24,12 @@ export const menuOptions = [
         },
         { default: () => '首页' }
       ),
-    key: 'go-back-home',
+    key: 'Home',
     icon: renderIcon(HomeIcon)
   },
   {
     label: '图表',
-    key: 'charts',
+    key: 'Charts',
     icon: renderIcon(BookIcon),
     children: [
       {
@@ -41,7 +41,7 @@ export const menuOptions = [
             },
             { default: () => '系统状态' }
           ),
-        key: 'charts-system-status',
+        key: 'Charts-System',
         icon: renderIcon(BookIcon)
       } 
     ]
@@ -55,7 +55,7 @@ export const menuOptions = [
         },
         { default: () => '个人信息' }
       ),
-    key: 'go-back-home',
+    key: 'Profile',
     icon: renderIcon(PersonIcon)
   },
   {

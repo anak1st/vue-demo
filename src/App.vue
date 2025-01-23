@@ -7,7 +7,7 @@
       <router-view v-slot="{ Component }">
         <component :is="Layout">
           <transition>
-            <KeepAlive>
+            <KeepAlive :include="keepAliveNames">
               <component :is="Component" />
             </KeepAlive>
           </transition>
@@ -22,13 +22,18 @@ import { ref, computed, KeepAlive, markRaw, defineAsyncComponent } from 'vue'
 import { RouterView, useRoute } from 'vue-router';
 import { NConfigProvider, NMessageProvider, darkTheme } from 'naive-ui';
 import { useDark } from '@vueuse/core';
+import { useAppStore } from './store/modules/app';
+
 
 const route = useRoute()
 const isDark = useDark();
+const appStore = useAppStore()
+
 
 const theme = computed(() => {
   return isDark.value ? darkTheme : null;
 })
+
 
 const Layouts = new Map()
 const getLayout = (name) => {
@@ -46,6 +51,10 @@ const Layout = computed(() => {
   }
   console.log("Layout: ", layoutName)
   return getLayout(layoutName)
+})
+
+const keepAliveNames = computed(() => {
+  return appStore.tabs.map(tab => tab.name)
 })
 
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex">
+  <div class="w-full h-full flex justify-center items-center">
     <n-result
       m-auto
       status="404"
@@ -18,7 +18,7 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { NResult } from 'naive-ui'
+import { NResult, NButton } from 'naive-ui'
 
 const router = useRouter()
 const route = useRoute()

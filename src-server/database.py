@@ -24,6 +24,6 @@ try:
     engine = create_engine(cfg.database_url)
     Base.metadata.create_all(engine)
 except Exception as e:
-    logger.error("Start Database Error, please check your database config and status:")
+    logger.error("Start Database Error, please check your database config")
     logger.error(e)
     exit(1)

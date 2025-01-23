@@ -47,7 +47,7 @@ export const appRoutes = [
     children: [
       {
         path: 'system',
-        name: 'System',
+        name: 'Charts-System',
         component: () => import('@/views/charts/system/index.vue'),
         meta: {
           title: '系统状态',
@@ -61,10 +61,14 @@ export const appRoutes = [
   {
     name: '404',
     path: '/404',
-    component: () => import('@/views/error-page/404.vue'),
+    component: () => import('@/views/error/404.vue'),
     meta: {
       title: '页面飞走了',
       layout: 'empty',
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404', 
+  }
 ]

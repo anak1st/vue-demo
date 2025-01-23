@@ -12,7 +12,7 @@ export const useAppStore = defineStore('app', () => {
     isCollapse.value = !isCollapse.value;
   };
 
-  // tab = { path, title }
+  // tab = { name, path, title }
   const addTab = (tab) => {
     const findIndex = tabs.value.findIndex(item => item.path === tab.path);
     if (findIndex !== -1) {
