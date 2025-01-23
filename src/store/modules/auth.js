@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { router } from "@/router";
 import { useUserStore } from "./user";
-import { fetchLogin, fetchRegister, useToken } from "@/api/modules/login";
+import { fetchLogin, fetchRegister, useToken } from "@/api/modules/auth";
 
 
 export const useAuthStore = defineStore("auth", () => {
@@ -22,12 +22,13 @@ export const useAuthStore = defineStore("auth", () => {
     
     if (userStore.userInfo === null) {
       setToken(token.value);
-      try {
-        await userStore.getUserInfo(); 
-      } catch (e) {
-        console.error(e);
-        return false; 
-      }
+    }
+
+    try {
+      await userStore.getUserInfo(); 
+    } catch (e) {
+      console.error(e);
+      return false; 
     }
 
     return token.value && token.value.length > 0 && userStore.userInfo !== null;
@@ -59,13 +60,6 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
 
-  const logout = () => {
-    token.value = "";
-    removeToken();
-    userStore.logout();
-    router.push("/login");
-  };
-
   const setToken = (token_) => {
     if (!token_) {
       throw new Error("token is empty");
@@ -77,10 +71,31 @@ export const useAuthStore = defineStore("auth", () => {
     tokenApi.set(token.value);
   };
 
+
   const removeToken = () => {
     token.value = "";
     tokenApi.remove();
   };
+
+
+  const logout = () => {
+    token.value = "";
+    removeToken();
+    userStore.logout();
+    router.push("/login");
+  };
+
+
+  const logoutIfNoAuth = async () => {
+    try {
+      await userStore.getUserInfo(true); 
+      return true;
+    } catch (e) {
+      console.error(e);
+      logout();
+      return false;
+    }
+  }
 
   
   return {
@@ -91,7 +106,8 @@ export const useAuthStore = defineStore("auth", () => {
     isLogin,
     register, 
     login,
-    logout
+    logout,
+    logoutIfNoAuth,
   }
 }, {
     persist: {

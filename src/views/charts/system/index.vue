@@ -21,7 +21,6 @@ import {
   DatasetComponent,
   TransformComponent,
   LegendComponent,
-  ToolboxComponent,
 } from 'echarts/components';
 // 标签自动布局、全局过渡动画等特性
 import { LabelLayout, UniversalTransition } from 'echarts/features';
@@ -43,7 +42,6 @@ echarts.use([
   DatasetComponent,
   TransformComponent,
   LegendComponent,
-  ToolboxComponent,
   LineChart,
   LabelLayout,
   UniversalTransition,
@@ -71,7 +69,7 @@ const task = async () => {
 task();
 const timer = setInterval(async () => {
   task();
-}, 5 * 1000);
+}, 10 * 1000);
 
 
 onBeforeUnmount(() => {

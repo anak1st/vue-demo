@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { fetchUserInfo } from "@/api/modules/user";
+import { fetchUserMe } from "@/api/modules/auth";
 
 
 export const useUserStore = defineStore("user", () => {
   const userInfo = ref(null);
+  const lastUpdateTime = ref(null);
 
   const username = computed(() => {
     return userInfo.value?.username || '无法获取用户名' 
@@ -14,9 +15,10 @@ export const useUserStore = defineStore("user", () => {
     return userInfo.value?.role || '无法获取角色'
   });
 
-  const getUserInfo = async () => {
-    if (!userInfo.value) {
-      userInfo.value = await fetchUserInfo();
+  const getUserInfo = async (force = false) => {
+    if (force || !userInfo.value || lastUpdateTime.value < new Date().getTime() - 1000 * 60) {
+      userInfo.value = await fetchUserMe();
+      lastUpdateTime.value = new Date().getTime();
     }
     if (!userInfo.value) {
       throw new Error("获取用户信息失败"); 

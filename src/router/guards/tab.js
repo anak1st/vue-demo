@@ -7,7 +7,7 @@ export function createTabGuard(router) {
       return
     }
     const name = to.name
-    const path = to.fullPath
+    const path = to.path
     const title = to.meta?.title
     appStore.addTab({ name, path, title })
   })

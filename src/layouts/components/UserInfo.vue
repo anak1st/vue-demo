@@ -7,7 +7,7 @@
   >
     <div class="flex">
       <UserAvatar />
-      <div class="flex flex-col items-center min-w-[120px]">
+      <div class="flex flex-col items-center min-w-[110px]">
         <span>
           {{ userStore.username }}
         </span>

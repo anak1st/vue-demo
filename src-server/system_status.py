@@ -79,6 +79,8 @@ async def get_system_status(second = 10, window_second = None):
                 "timestamp": timestamp.timestamp(),
                 "localtime": timestamp.strftime("%Y/%m/%d %H:%M:%S")
             }
+            if result["value"] is None:
+                result["value"] = 0.0
             if record.get_field() not in results:
                 results[record.get_field()] = []
             results[record.get_field()].append(result)

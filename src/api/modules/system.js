@@ -1,4 +1,5 @@
 import { api } from "@/api/axios";
+import { useAuthStore } from "@/store/modules/auth";
 
 
 export const fetchSystemStatus = async (second, window_second) => {
@@ -14,6 +15,8 @@ export const fetchSystemStatus = async (second, window_second) => {
     }
     return res.data.data;
   } catch (e) {
+    const authStore = useAuthStore();
+    await authStore.logoutIfNoAuth();
     throw e;
   }
 }

@@ -6,145 +6,81 @@ import {
   HomeOutlined as HomeIcon,
   WineBarFilled as WineIcon,
   PersonOutlined as PersonIcon,
+  AreaChartOutlined as ChartIcon,
+  DesktopWindowsOutlined as DesktopIcon,
 } from '@vicons/material'
 
 
-function renderIcon(icon) {
+const renderIcon = (icon) => {
   return () => h(NIcon, null, { default: () => h(icon) })
+}
+
+
+const renderLink = (route, title) => {
+  return () =>
+    h(
+      RouterLink,
+      { to: route },
+      { default: () => title }
+    ) 
+}
+
+
+const renderLinkOut = (route, title) => {
+  return () =>
+    h(
+      'a',
+      { href: route, target: '_blank', rel: 'noopenner noreferrer' },
+      { default: () => title }
+    ) 
 }
 
 
 export const menuOptions = [
   {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: '/'
-        },
-        { default: () => '首页' }
-      ),
+    label: renderLink('/','首页'),
+    name: '首页',
     key: 'Home',
     icon: renderIcon(HomeIcon)
   },
   {
     label: '图表',
+    name: '图表',
     key: 'Charts',
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(ChartIcon),
     children: [
       {
-        label: () =>
-          h(
-            RouterLink,
-            {
-              to: '/charts/system'
-            },
-            { default: () => '系统状态' }
-          ),
+        label: renderLink('/charts/system', '系统状态'),
+        name: '系统状态',
         key: 'Charts-System',
-        icon: renderIcon(BookIcon)
+        icon: renderIcon(DesktopIcon)
       } 
     ]
   },
   {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: '/profile'
-        },
-        { default: () => '个人信息' }
-      ),
+    label: renderLink('/profile', '个人信息'),
+    name: '个人信息',
     key: 'Profile',
     icon: renderIcon(PersonIcon)
   },
   {
-    key: 'divider-1',
+    key: 'Divider-1',
     type: 'divider',
-    props: {
-      style: {
-        marginLeft: '32px'
-      }
-    }
   },
   {
-    label: () =>
-      h(
-        'a',
-        {
-          href: 'https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F',
-          target: '_blank',
-          rel: 'noopenner noreferrer'
-        },
-        '且听风吟'
-      ),
-    key: 'hear-the-wind-sing',
-    icon: renderIcon(BookIcon)
-  },
-  {
-    label: '1973年的弹珠玩具',
-    key: 'pinball-1973',
-    icon: renderIcon(BookIcon),
-    disabled: true,
-    children: [
-      {
-        label: '鼠',
-        key: 'rat'
-      }
-    ]
-  },
-  {
-    label: '寻羊冒险记',
-    key: 'a-wild-sheep-chase',
-    icon: renderIcon(BookIcon),
-    disabled: true
-  },
-  {
-    label: '舞，舞，舞',
-    key: 'dance-dance-dance',
+    label: '文档',
+    key: 'OutDocs',
     icon: renderIcon(BookIcon),
     children: [
       {
-        type: 'group',
-        label: '人物',
-        key: 'people',
-        children: [
-          {
-            label: '叙事者',
-            key: 'narrator',
-            icon: renderIcon(PersonIcon)
-          },
-          {
-            label: '羊男',
-            key: 'sheep-man',
-            icon: renderIcon(PersonIcon)
-          }
-        ]
+        label: renderLinkOut('https://vuejs.org/', 'Vue 文档'),
+        key: 'OutDocs-Vue',
+        icon: renderIcon(BookIcon)
       },
       {
-        label: '饮品',
-        key: 'beverage',
-        icon: renderIcon(WineIcon),
-        children: [
-          {
-            label: '威士忌',
-            key: 'whisky'
-          }
-        ]
-      },
-      {
-        label: '食物',
-        key: 'food',
-        children: [
-          {
-            label: '三明治',
-            key: 'sandwich'
-          }
-        ]
-      },
-      {
-        label: '过去增多，未来减少',
-        key: 'the-past-increases-the-future-recedes'
+        label: renderLinkOut('https://www.naiveui.com/', 'NaiveUI 文档'),
+        key: 'OutDocs-NaiveUI', 
+        icon: renderIcon(BookIcon)
       }
     ]
   }

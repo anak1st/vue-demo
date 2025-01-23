@@ -28,7 +28,8 @@ export const appRoutes = [
       layout: 'full',
       canAddTab: true,
       requireAuth: true
-    }
+    },
+    alias: '/home'
   },
   {
     path: '/profile',
