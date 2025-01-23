@@ -3,6 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 import time
 import datetime
+import pytz
 import asyncio
 import psutil
 from scheduler import scheduler
@@ -74,10 +75,12 @@ async def get_system_status(second = 10, aggregate_window = None):
     for table in response:
         for record in table.records:
             timestamp: datetime.datetime = record.get_time()
+            shanghai_timezone = pytz.timezone('Asia/Shanghai')
+            shanghai_timestamp = timestamp.astimezone(shanghai_timezone)
             result = {
                 "value": record.get_value(),
                 "timestamp": timestamp.timestamp(),
-                "localtime": timestamp.strftime("%Y/%m/%d %H:%M:%S")
+                "localtime": shanghai_timestamp.strftime("%Y/%m/%d %H:%M:%S")
             }
             if result["value"] is None:
                 result["value"] = 0.0

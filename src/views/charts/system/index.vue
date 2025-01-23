@@ -1,9 +1,9 @@
 <template>
   <div class="h-full w-full">
-    <n-card title="系统状态">
+    <n-card>
       <v-chart class="h-[300px]" :option="option" :theme="theme" autoresize  />
       <template #action>
-        <div class="flex justify-end items-center gap-4">
+        <div class="flex justify-end items-center gap-4 mr-[20px]">
           <div> 选择时间 </div>
           <n-select 
             v-model:value="seconds"  
@@ -107,7 +107,15 @@ const areaStyle = (c) => {
 }
 
 
+const theme = computed(() => {
+  return isDark.value ? "dark" : 'light'; 
+})
+
+
 const option = ref({
+  title: {
+    text: '系统状态',
+  },
   tooltip: {
     trigger: 'axis',
     valueFormatter: (value) => value.toFixed(1)
@@ -116,9 +124,9 @@ const option = ref({
     data: ['CPU 使用率', '内存使用率'],
   },
   grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
+    left: 30,
+    right: 30,
+    bottom: 0,
     containLabel: true
   },
   xAxis: {
@@ -157,7 +165,7 @@ const updateOption = async (seconds, aggregate_window) => {
     const cpu_usage = res.cpu_usage.map((item) => item.value);
     console.log(res);
     const memory_usage = res.memory_usage.map((item) => item.value);
-    const time = res.cpu_usage.map((item) => item.localtime);
+    const time = res.cpu_usage.map((item) => item.localtime.split(' ')[1]);
 
     option.value.series[0].data = cpu_usage;
     option.value.series[1].data = memory_usage;
@@ -168,14 +176,18 @@ const updateOption = async (seconds, aggregate_window) => {
 }
 
 
-const seconds = ref(600);
-const aggregate_window = ref(10);
+const seconds = ref(300);
+const aggregate_window = ref(5);
 
 
 const selectSecondsOption = [
   {
     label: '1 分钟',
-    value: 60,
+    value: 60
+  },
+  {
+    label: '5 分钟',
+    value: 300
   },
   {
     label: '10 分钟',
@@ -209,29 +221,35 @@ const selectAggregateWindowOption = [
 
 
 
-const theme = computed(() => {
-  return isDark.value ? "dark" : 'light'; 
-})
+
 
 
 const task = async () => {
   await updateOption(seconds.value, Math.min(seconds.value, aggregate_window.value));
 }
+task();
 
+
+let timer = null;
+
+const createTimer = () => {
+  if (timer) {
+    clearInterval(timer);
+  }
+  timer = setInterval(async () => {
+    await task();
+  }, aggregate_window.value * 1000);
+}
 
 watch(seconds, async (newValue) => {
   await task();
 })
 watch(aggregate_window, async (newValue) => {
   await task();
+  createTimer();
 })
 
-
-task();
-const timer = setInterval(async () => {
-  task();
-}, 10 * 1000);
-
+createTimer();
 
 onBeforeUnmount(() => {
   clearInterval(timer);
