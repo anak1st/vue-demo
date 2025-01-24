@@ -1,43 +1,39 @@
-# vue navie-ui admin template
-- vue3
-- vue-router
-- pinia
-- naive-ui
+# vue-demo
 
-## 前端页面启动
+This template should help get you started developing with Vue 3 in Vite.
 
-安装依赖
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+## Type Support for `.vue` Imports in TS
+
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vite.dev/config/).
+
+## Project Setup
+
 ```sh
 pnpm install
 ```
 
-测试环境
+### Compile and Hot-Reload for Development
+
 ```sh
 pnpm dev
 ```
 
-编译，生成dist
+### Type-Check, Compile and Minify for Production
+
 ```sh
 pnpm build
 ```
 
-## 后端
-如果需要测试前端的后端依赖部分，需要先启动后端服务
+### Lint with [ESLint](https://eslint.org/)
 
-依赖：
-- python3.10+
-- postgresql
-- redis
-- influxdb
-- ...
-
-### python 环境依赖完整与启动项目
 ```sh
-pip install -r ./requirements.txt
-python ./src-server/main.py
+pnpm lint
 ```
-
-### influxdb 安装
-使用 [docker/influxdb2.sh](docker/influxdb2.sh) 脚本安装
-- 记得修改脚本中账号密码
-- 安装完成后在 web 端登录，创建 bucket

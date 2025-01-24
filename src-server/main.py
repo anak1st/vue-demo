@@ -31,6 +31,7 @@ app.add_middleware(
 def OK(data):
     return {"code": 0, "msg": "OK", "data": data}
 
+
 def ERROR(code, msg):
     return {"code": code, "msg": msg}
 

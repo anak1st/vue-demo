@@ -1,7 +1,8 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="h-full w-full">
-    <n-card>
-      <v-chart class="h-[300px]" :option="option" :theme="theme" autoresize  />
+    <n-card class="h-[500px]">
+      <v-chart :option="option" :theme="theme" autoresize  />
       <template #action>
         <div class="flex justify-end items-center gap-4 mr-[20px]">
           <div> 选择时间 </div>
@@ -9,14 +10,14 @@
             v-model:value="seconds"  
             :options="selectSecondsOption" 
             size="small"
-            class="w-[100px]"
+            class=" max-w-30"
           />
           <div> 选择聚合窗口 </div>
           <n-select 
             v-model:value="aggregate_window" 
             :options="selectAggregateWindowOption"
             size="small" 
-            class="w-[100px]"
+            class=" max-w-30"
           />
         </div>
         
@@ -25,7 +26,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onBeforeUnmount, watch } from 'vue';
 import { NCard, NSelect, useMessage } from 'naive-ui';
 import { useDark } from '@vueuse/core';
@@ -44,6 +45,7 @@ import {
 // 标签自动布局、全局过渡动画等特性
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 // 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
+// import type { EChartsOption } from 'echarts';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
 import { fetchSystemStatus } from '@/api/modules/system';
@@ -79,12 +81,12 @@ const colorMap = {
 
 const blue = () => colorMap.blue
 const red = () => colorMap.red
-const yellow = () => colorMap.yellow
-const green = () => colorMap.green
-const purple = () => colorMap.purple
+// const yellow = () => colorMap.yellow
+// const green = () => colorMap.green
+// const purple = () => colorMap.purple
 
 
-const areaStyle = (c) => {
+const areaStyle = (c: string) => {
   return {
     color: {
       type: 'linear',
@@ -112,13 +114,22 @@ const theme = computed(() => {
 })
 
 
-const option = ref({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const option = ref<any>({
   title: {
     text: '系统状态',
   },
   tooltip: {
     trigger: 'axis',
-    valueFormatter: (value) => value.toFixed(1)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    valueFormatter: (value: any) => {
+      // if value is number, format it to 1 decimal place
+      if (typeof value === 'number') {
+        return value.toFixed(1);
+      } else {
+        return String(value);
+      }
+    }
   },
   legend: {
     data: ['CPU 使用率', '内存使用率'],
@@ -159,19 +170,32 @@ const option = ref({
 });
 
 
-const updateOption = async (seconds, aggregate_window) => {
+const updateOption = async (seconds: number, aggregate_window: number) => {
   try {
     const res = await fetchSystemStatus(seconds, aggregate_window);
+    if (!res) {
+      message.error('获取系统状态失败');
+      return;
+    }
     const cpu_usage = res.cpu_usage.map((item) => item.value);
     console.log(res);
     const memory_usage = res.memory_usage.map((item) => item.value);
     const time = res.cpu_usage.map((item) => item.localtime.split(' ')[1]);
 
-    option.value.series[0].data = cpu_usage;
-    option.value.series[1].data = memory_usage;
-    option.value.xAxis.data = time;
-  } catch (e) {
-    message.error(error.message); 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const series = option.value.series as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const xAxis = option.value.xAxis as any;
+
+    series[0].data = cpu_usage;
+    series[1].data = memory_usage;
+    xAxis.data = time;
+  } catch (error) {
+    if (error instanceof Error) {
+      message.error(error.message);
+    } else {
+      message.error('获取系统状态失败');
+    }
   }
 }
 
@@ -220,17 +244,13 @@ const selectAggregateWindowOption = [
 ]
 
 
-
-
-
-
 const task = async () => {
   await updateOption(seconds.value, Math.min(seconds.value, aggregate_window.value));
 }
 task();
 
 
-let timer = null;
+let timer: number | null = null;
 
 const createTimer = () => {
   if (timer) {
@@ -241,10 +261,10 @@ const createTimer = () => {
   }, aggregate_window.value * 1000);
 }
 
-watch(seconds, async (newValue) => {
+watch(seconds, async () => {
   await task();
 })
-watch(aggregate_window, async (newValue) => {
+watch(aggregate_window, async () => {
   await task();
   createTimer();
 })
@@ -252,7 +272,9 @@ watch(aggregate_window, async (newValue) => {
 createTimer();
 
 onBeforeUnmount(() => {
-  clearInterval(timer);
+  if (timer) {
+    clearInterval(timer);
+  }
 })
 
 

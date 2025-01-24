@@ -7,9 +7,9 @@
       <router-view v-slot="{ Component }">
         <component :is="Layout">
           <transition>
-            <KeepAlive :include="keepAliveNames">
+            <keep-alive :include="keepAliveNames">
               <component :is="Component" />
-            </KeepAlive>
+            </keep-alive>
           </transition>
         </component>
       </router-view>
@@ -17,17 +17,17 @@
   </n-config-provider>
 </template>
 
-<script setup>
-import { ref, computed, KeepAlive, markRaw, defineAsyncComponent } from 'vue'
+<script setup lang="ts">
+import { computed, markRaw, defineAsyncComponent } from 'vue'
 import { RouterView, useRoute } from 'vue-router';
 import { NConfigProvider, NMessageProvider, darkTheme } from 'naive-ui';
 import { useDark } from '@vueuse/core';
-import { useAppStore } from './store/modules/app';
+import { useTabStore } from './stores';
 
 
 const route = useRoute()
 const isDark = useDark();
-const appStore = useAppStore()
+const tabStore = useTabStore()
 
 
 const theme = computed(() => {
@@ -36,7 +36,7 @@ const theme = computed(() => {
 
 
 const Layouts = new Map()
-const getLayout = (name) => {
+const getLayout = (name: string) => {
   if (!Layouts.get(name)) {
     const layoutComponent = markRaw(defineAsyncComponent(() => import(`@/layouts/${name}/index.vue`)))
     Layouts.set(name, layoutComponent)
@@ -50,11 +50,11 @@ const Layout = computed(() => {
    return null 
   }
   console.log("Layout: ", layoutName)
-  return getLayout(layoutName)
+  return getLayout(layoutName as string)
 })
 
 const keepAliveNames = computed(() => {
-  return appStore.tabs.map(tab => tab.name)
+  return tabStore.tabs.map(tab => tab.name)
 })
 
 </script>

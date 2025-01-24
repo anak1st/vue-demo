@@ -4,12 +4,11 @@
   </n-avatar>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { NAvatar } from 'naive-ui';
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '@/stores'
 
 
 const userStore = useUserStore();
-
 
 </script>

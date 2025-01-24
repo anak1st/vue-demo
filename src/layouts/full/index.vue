@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <n-layout has-sider class="h-full w-full">
     <n-layout-sider 
@@ -30,13 +31,13 @@
   </n-layout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
-import AppSider  from '@/layouts/components/AppSider.vue';
-import AppHeader from '@/layouts/components/AppHeader.vue';
-import AppTab    from '@/layouts/components/AppTab.vue';
-import AppFooter from '@/layouts/components/AppFooter.vue';
-import { useAppStore } from '@/store/modules/app';
+import AppSider  from '@/components/AppSider.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AppTab    from '@/components/AppTab.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import { useAppStore } from '@/stores';
 
 const appStore = useAppStore();
 

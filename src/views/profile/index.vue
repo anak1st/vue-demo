@@ -1,11 +1,12 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
     {{ JSON.stringify(userStore.userInfo) }}
   </div>
 </template>
 
-<script setup>
-import { useUserStore } from '@/store/modules/user';
+<script setup lang="ts">
+import { useUserStore } from '@/stores';
 
 const userStore = useUserStore();
 
