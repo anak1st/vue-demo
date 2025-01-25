@@ -8,11 +8,14 @@ export const useUserStore = defineStore('user', () => {
   const lastUpdateTime = ref<number>(0);
   const updateInterval = 60; // seconds
 
-  
-  const username = computed(() => {
-    return userInfo.value?.username || "";
+  const user = computed(() => {
+    update(false);
+    return userInfo.value;
   })
 
+  const username = computed(() => {
+    return user.value?.username || "N/A";
+  })
 
   const username0 = computed(() => {
     const ch = username.value[0];
@@ -23,41 +26,35 @@ export const useUserStore = defineStore('user', () => {
     return ch;
   })
 
-  
   const roles = computed(() => {
-    return userInfo.value?.roles || [];
+    return user.value?.roles || [];
   })
-
 
   const timeout = computed(() => {
     return Date.now() - lastUpdateTime.value > updateInterval * 1000;
   })
 
-
   const update = async (force: boolean) => {
     if (!force && !timeout.value && userInfo.value) {
-      return false;
+      return;
     }
     lastUpdateTime.value = Date.now();
-    const res = await fetchUserMe();
-    userInfo.value = res;
-    if (!userInfo.value) {
-      throw new Error("获取用户信息失败");
+    try {
+      userInfo.value = await fetchUserMe();
+      console.log("update user info success");
+    } catch (error) {
+      logout();
+      console.error("update user info failed");
+      console.error(error);
     }
-    if (!username.value) {
-      throw new Error("获取用户信息失败, 用户名为空");
-    }
-    return true;
   }
-
 
   const logout = () => {
     userInfo.value = null;
   }
 
-
   return {
-    userInfo,
+    user,
     username,
     username0,
     roles,

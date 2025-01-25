@@ -9,11 +9,9 @@ interface Tab {
   path: string,
 }
 
-
 export const useTabStore = defineStore('tab', () => {
   const tabs = ref<Tab[]>([])
   const activeTabPath = ref<string>('/home')
-
 
   const add = (tab: Tab) => {
     const index = tabs.value.findIndex(item => item.name === tab.name)
@@ -25,7 +23,6 @@ export const useTabStore = defineStore('tab', () => {
     activeTabPath.value = tab.path
   }
 
-
   const remove = (path: string) => {
     tabs.value = tabs.value.filter(item => item.path !== path)
     if (activeTabPath.value === path) {
@@ -36,13 +33,11 @@ export const useTabStore = defineStore('tab', () => {
     }
   }
 
-
   const setActive = (path: string) => {
     activeTabPath.value = path
     router.push(path)
   }
 
-  
   return { 
     tabs, 
     activeTabPath, 
@@ -50,6 +45,7 @@ export const useTabStore = defineStore('tab', () => {
     remove,
     setActive
   }
+  
 },{
   persist: {
     storage: sessionStorage,

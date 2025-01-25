@@ -1,6 +1,5 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { useUserStore } from './user';
 
 
 export const useAuthStore = defineStore('auth', () => {
@@ -12,21 +11,9 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = "";
   }
 
-
-  const isLogin = async () => {
-    if (!token.value || token.value.length === 0) {
-      return false;
-    }
-    const userStore = useUserStore();
-    try {
-      await userStore.update(false);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-
+  const isLogin = computed(() => {
+    return !!token.value && token.value.length > 10;
+  })
 
   return {
     username,
@@ -35,6 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     isLogin,
   }
+  
 }, {
   persist: {
     storage: localStorage,

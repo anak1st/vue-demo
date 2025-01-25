@@ -53,6 +53,23 @@ export const routes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/manage',
+    name: 'Manage',
+    children: [
+      {
+        path:'users',
+        name: 'Manage-Users',
+        component: () => import('@/views/manage/users/index.vue'),
+        meta: {
+          title: '用户管理',
+          layout: 'full',
+          canAddTab: true,
+          requireAuth: true
+        }
+      }
+    ]
+  },
+  {
     name: '404',
     path: '/404',
     component: () => import('@/views/error/404.vue'),

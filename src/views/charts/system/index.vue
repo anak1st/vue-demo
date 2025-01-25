@@ -1,6 +1,6 @@
 <template>
   <div class="h-full w-full">
-    <n-card>
+    <n-card content-class="!p-3">
       <div class="h-[400px] ">
         <v-chart :option="option" :theme="theme" autoresize />
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onBeforeUnmount, watch, onMounted } from 'vue';
 import { NCard, NSelect, useMessage } from 'naive-ui';
 import { useDark } from '@vueuse/core';
 import * as echarts from 'echarts/core'
@@ -132,7 +132,7 @@ const option = ref<any>({
   },
   grid: {
     left: 10,
-    right: 30,
+    right: 25,
     bottom: 0,
     containLabel: true
   },
@@ -243,8 +243,6 @@ const selectAggregateWindowOption = [
 const task = async () => {
   await updateOption(seconds.value, Math.min(seconds.value, aggregate_window.value));
 }
-task();
-
 
 let timer: number | null = null;
 
@@ -260,12 +258,16 @@ const createTimer = () => {
 watch(seconds, async () => {
   await task();
 })
+
 watch(aggregate_window, async () => {
   await task();
   createTimer();
 })
 
-createTimer();
+onMounted(async () => {
+  await task();
+  createTimer();
+})
 
 onBeforeUnmount(() => {
   if (timer) {

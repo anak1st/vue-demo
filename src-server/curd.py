@@ -23,6 +23,12 @@ def get_users(offset: int = 0, limit: int = 100) -> List[schemas.User]:
         return [schemas.User.model_validate(user) for user in res]
     
 
+def get_user_count() -> int:
+    with Session(database.engine) as session:
+        res = session.query(database.User).count()
+        return res
+    
+
 def get_user_by_id(user_id: int) -> schemas.User:
     with Session(database.engine) as session:
         res = session.query(database.User).filter(database.User.id == user_id).first()

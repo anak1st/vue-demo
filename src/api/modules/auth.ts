@@ -1,6 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-import type { ResponseData } from '@/api/axios';
-import { api } from '@/api/axios';
+import { api, type ResponseData } from '@/api/axios';
 import { AxiosError } from 'axios';
 
 
@@ -31,6 +29,7 @@ export const fetchLogin = async (username: string, password: string) => {
 
 export const fetchRegister = async (username: string, password: string) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await api.post<ResponseData<any>>('/users/create', {
       username,
       password,

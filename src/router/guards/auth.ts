@@ -6,13 +6,13 @@ export function createAuthGuard(router : Router) {
   const authStore = useAuthStore()
   router.beforeEach(async (to, from, next) => {
     if (to.meta?.requireAuth) {
-      if (await authStore.isLogin()) {
+      if (authStore.isLogin) {
         next() 
       } else {
         next({ name: 'Login' })
       }
     } else if (to.name === 'Login' || to.name === 'Register') {
-      if (await authStore.isLogin()) {
+      if (authStore.isLogin) {
         next({ name: 'Home' }) 
       } else {
         next() 

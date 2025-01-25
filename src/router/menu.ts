@@ -60,6 +60,20 @@ export const menuOptions: MenuOption[] = [
     icon: renderIcon(PersonIcon)
   },
   {
+    label: '管理',
+    name: '管理',
+    key: 'Manage',
+    icon: renderIcon(DesktopIcon),
+    children: [
+      {
+        label: renderLink('/manage/users', '用户管理'),
+        name: '用户管理',
+        key: 'Manage-Users',
+        icon: renderIcon(PersonIcon)
+      }
+    ]
+  },
+  {
     key: 'Divider-1',
     type: 'divider',
   },
