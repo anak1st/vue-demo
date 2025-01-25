@@ -1,12 +1,12 @@
 <template>
-  <n-card content-class="!p-3" >
+  <n-card content-class="!p-4" >
     <n-data-table 
-      :bordered="false" 
       :single-line="false" 
       :columns="columns" 
       :data="data" 
       :pagination="pagination"
       :row-key="(r) => r.id"
+      v-model:checked-row-keys="checkedRowKeysRef"
     />
   </n-card>
 </template>
@@ -27,6 +27,9 @@ const deleteUser = (rowData: UserInfo) => {
 
 
 const columns: DataTableColumns<UserInfo> = [
+  {
+    type: 'selection',
+  },
   {
     title: '用户名',
     key: 'username'
@@ -69,12 +72,16 @@ const columns: DataTableColumns<UserInfo> = [
         },
         { default: () => '删除' }
       )
-    }
+    },
+    align: 'center',
+    width: 150
   }
 ]
 
 
 const data = ref<UserInfo[]>([])
+
+const checkedRowKeysRef = ref<Array<string | number>>([])
 
 
 const pagination = ref({
