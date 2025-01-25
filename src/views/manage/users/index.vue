@@ -41,15 +41,13 @@ const columns: DataTableColumns<UserInfo> = [
       const roles = []
       for (const role in row.roles) {
         roles.push(h(
-          NTag,
-          {
+          NTag, {
             style: {
               marginRight: '6px'
             },
             type: 'info',
             bordered: false
-          },
-          {
+          }, {
             default: () => role
           }
         ));
@@ -64,13 +62,23 @@ const columns: DataTableColumns<UserInfo> = [
     title: '操作',
     key: 'actions',
     render(row) {
-      return h(
-        NButton,
-        {
+      const actions = [];
+      actions.push(h(
+        NButton, {
           size: 'small',
           onClick: () => deleteUser(row)
-        },
-        { default: () => '删除' }
+        }, { default: () => '修改' }
+      ))
+      actions.push(h(
+        NButton, {
+          size: 'small',
+          type: 'error',
+          onClick: () => deleteUser(row)
+        }, { default: () => '删除' }
+      ))
+      return h(
+        'div', { class: 'flex justify-center flex-row gap-2'},
+        actions
       )
     },
     align: 'center',

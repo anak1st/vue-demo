@@ -20,18 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { NResult } from 'naive-ui'
 const router = useRouter()
-const route = useRoute()
 
 const back = history.state.back
-
-if (history.state.from === 'permission-guard') {
-  delete history.state.from
-}
-else if (route.query.path) {
-  router.replace(route.query.path as string)
-}
 
 </script>
