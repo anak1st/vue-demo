@@ -2,16 +2,16 @@
   <n-tabs type='card' 
     :value="tabStore.activeTabPath" 
     :closable="tabStore.tabs.length > 1"
-    @close="tabStore.removeTab" 
+    @close="tabStore.remove" 
     :tabs-padding=0
-    class="custom-tabs p-[6px]"
+    class="custom-tabs p-2"
     size="small"
   >
     <n-tab 
       v-for="it in tabStore.tabs" 
       :key="it.path" 
       :name="it.path" 
-      @click="tabStore.setActive"
+      @click="tabStore.setActive(it.path)"
     >
       {{ it.title }}
     </n-tab>
@@ -29,7 +29,7 @@ const tabStore = useTabStore();
 <style scope>
 .custom-tabs {
   .n-tabs-tab {
-    height: 32px;
+    height: 34px;
     margin-left: 2px !important;
     margin-right: 2px !important;
     border-radius: 4px !important;

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="h-full w-full">
     <hello-user class=" min-w-[350px] max-w-[500px]" />

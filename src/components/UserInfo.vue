@@ -5,24 +5,19 @@
     size="medium"
     @select="handleSelect"
   >
-    <div class="flex">
+    <n-button quaternary class="flex !px-0">
       <UserAvatar />
-      <div class="flex flex-col items-center min-w-[100px]">
-        <span>
-          {{ userStore.username }}
-        </span>
-        <span class="text-xs text-neutral-500 dark:text-neutral-400">
-          [ {{ userStore.roles }} ]
-        </span>
+      <div class="flex justify-center items-center px-3 text-lg">
+        {{ userStore.username }}
       </div>
-    </div>
+    </n-button>
   </n-dropdown>
 </template>
 
 <script setup lang="ts">
 import { h, type Component } from 'vue';
 import { useRouter } from 'vue-router';
-import { NDropdown, useMessage } from 'naive-ui';
+import { NButton, NDropdown, useMessage } from 'naive-ui';
 import { LogoutIcon, ChangeIcon, PersonIcon } from './icons';
 import UserAvatar from '@/components/UserAvatar.vue';
 import { useUserStore, useAuthStore } from '@/stores';

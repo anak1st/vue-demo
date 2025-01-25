@@ -35,7 +35,6 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     isLogin,
   }
-
 }, {
   persist: {
     storage: localStorage,

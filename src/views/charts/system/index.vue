@@ -1,27 +1,23 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="h-full w-full">
-    <n-card class="h-[500px]">
-      <v-chart :option="option" :theme="theme" autoresize  />
-      <template #action>
-        <div class="flex justify-end items-center gap-4 mr-[20px]">
-          <div> 选择时间 </div>
-          <n-select 
-            v-model:value="seconds"  
-            :options="selectSecondsOption" 
-            size="small"
-            class=" max-w-30"
-          />
-          <div> 选择聚合窗口 </div>
-          <n-select 
-            v-model:value="aggregate_window" 
-            :options="selectAggregateWindowOption"
-            size="small" 
-            class=" max-w-30"
-          />
-        </div>
-        
-      </template>
+    <n-card>
+      <div class="h-[400px] ">
+        <v-chart :option="option" :theme="theme" autoresize />
+      </div>
+      <div class="flex justify-end items-center gap-4 mt-4">
+        <div> 选择时间 </div>
+        <n-select 
+          v-model:value="seconds"  
+          :options="selectSecondsOption"
+          class=" max-w-30"
+        />
+        <div> 选择聚合窗口 </div>
+        <n-select 
+          v-model:value="aggregate_window" 
+          :options="selectAggregateWindowOption"
+          class=" max-w-30"
+        />
+      </div>
     </n-card>
   </div>
 </template>
@@ -135,7 +131,7 @@ const option = ref<any>({
     data: ['CPU 使用率', '内存使用率'],
   },
   grid: {
-    left: 30,
+    left: 10,
     right: 30,
     bottom: 0,
     containLabel: true

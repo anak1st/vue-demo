@@ -3,14 +3,14 @@ import colorlog
 
 
 formatter = logging.Formatter(
-    "{asctime} | {levelname:^8s} [{name}] {message}",
+    "{asctime} {levelname:^8s} [{name}] {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 
 
 formatterColored = colorlog.ColoredFormatter(
-    "{log_color}{asctime} | {levelname:^8s} [{name}] {message}{reset}",
+    "{log_color}{asctime} {levelname:^8s} [{name}] {message}{reset}",
     log_colors={
         'DEBUG': 'light_black',
         'INFO': 'white',

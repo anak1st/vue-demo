@@ -13,6 +13,16 @@ export const useUserStore = defineStore('user', () => {
     return userInfo.value?.username || "";
   })
 
+
+  const username0 = computed(() => {
+    const ch = username.value[0];
+    // if ch is english, return uppercase
+    if (ch.match(/[a-zA-Z]/)) {
+      return ch.toUpperCase();
+    }
+    return ch;
+  })
+
   
   const roles = computed(() => {
     return userInfo.value?.roles || [];
@@ -30,7 +40,6 @@ export const useUserStore = defineStore('user', () => {
     }
     lastUpdateTime.value = Date.now();
     const res = await fetchUserMe();
-    console.log(res);
     userInfo.value = res;
     if (!userInfo.value) {
       throw new Error("获取用户信息失败");
@@ -50,6 +59,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     userInfo,
     username,
+    username0,
     roles,
     logout,
     update,

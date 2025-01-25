@@ -30,11 +30,9 @@ export const useTabStore = defineStore('tab', () => {
     tabs.value = tabs.value.filter(item => item.path !== path)
     if (activeTabPath.value === path) {
       const len = tabs.value.length
-      const nextPath = tabs.value[len - 1]?.path
-      if (nextPath) {
-        activeTabPath.value = nextPath
-        router.push(nextPath)
-      }
+      const nextPath = tabs.value[len - 1].path
+      activeTabPath.value = nextPath
+      router.push(nextPath)
     }
   }
 
@@ -51,5 +49,10 @@ export const useTabStore = defineStore('tab', () => {
     add, 
     remove,
     setActive
+  }
+},{
+  persist: {
+    storage: sessionStorage,
+    pick: ['tabs', 'activeTabPath'],
   }
 })

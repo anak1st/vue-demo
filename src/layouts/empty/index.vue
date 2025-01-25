@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <n-layout position="absolute" >
     <n-layout-content position="absolute" class="m-2">

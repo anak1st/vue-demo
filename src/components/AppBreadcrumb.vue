@@ -2,9 +2,9 @@
   <n-breadcrumb>
     <n-breadcrumb-item v-for="item in breadcrumbItems" :key="item.key">
       <n-dropdown>
-        <div class="flex justify-center items-center">
-          <component :is="item.icon" class="mr-2" />
-          {{ item.name }}
+        <div class="flex justify-center items-center ">
+          <component :is="item.icon" class="mr-1" />
+          <div class="text-sm"> {{ item.name }} </div>
         </div>
       </n-dropdown>
     </n-breadcrumb-item>
@@ -24,15 +24,6 @@ const route = useRoute();
 const breadcrumbItems = ref<MenuOptionItem[] | null>([]);
 
 
-watch(() => route.name, () => {
-  breadcrumbItems.value = findBreadcrumb(menuOptions, route.name as string);
-})
-
-onMounted(() => {
-  breadcrumbItems.value = findBreadcrumb(menuOptions, route.name as string);
-})
-
-
 const findBreadcrumb = (tree: MenuOptionItem[], key: string): MenuOptionItem[] | null => {
   for (const item of tree) {
     if (item.key === key) {
@@ -47,6 +38,21 @@ const findBreadcrumb = (tree: MenuOptionItem[], key: string): MenuOptionItem[] |
   }
   return null;
 }
+
+const initBreadcrumbItems = () => {
+  breadcrumbItems.value = findBreadcrumb(menuOptions, route.name as string);
+}
+
+
+watch(() => route.name, () => {
+  initBreadcrumbItems();
+})
+onMounted(() => {
+  initBreadcrumbItems();
+})
+
+
+
 
 
 </script>

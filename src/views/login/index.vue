@@ -1,5 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-
 <template>
   <div class="h-full w-full flex items-center justify-center">
     <n-card class="max-w-[500px]">

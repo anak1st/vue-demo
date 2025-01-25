@@ -33,10 +33,9 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use((response) => {
   const authStore = useAuthStore();
-  const data = response.data;
-  if (data.code === 401) {
-    authStore.token = '';
-    console.error('登录过期');
+  if (response.status === 401) {
+    authStore.logout();
+    console.log(response);
     router.push('/login');
   }
   return Promise.resolve(response);

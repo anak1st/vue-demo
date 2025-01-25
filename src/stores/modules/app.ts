@@ -3,10 +3,10 @@ import { defineStore } from 'pinia'
 
 
 export const useAppStore = defineStore('app', () => {
-  const isCollapse = ref(false)
+  const isCollapse = ref(false);
 
   const switchCollapse = () => {
-    isCollapse.value = !isCollapse.value
+    isCollapse.value = !isCollapse.value;
   }
 
   return { 

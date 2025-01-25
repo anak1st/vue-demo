@@ -1,7 +1,7 @@
 <template>
   <n-card>
     <div class="flex items-center">
-      <user-avatar />
+      <user-avatar :size="50" />
       <div class="ml-4">
         <h1 class="text-2xl">
           Hello {{ userStore.username }}

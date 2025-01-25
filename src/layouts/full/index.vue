@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <n-layout has-sider class="h-full w-full">
     <n-layout-sider 

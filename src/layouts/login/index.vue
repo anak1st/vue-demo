@@ -1,11 +1,10 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <n-layout position="absolute">
-    <div class="fixed flex items-center right-0 h-[50px] mr-3 z-50">
-      <ToggleThemeButton class="mr-3" />
-      <FullscreenButton  />
+    <div class="fixed h-[50px] z-50 flex items-center right-2 gap-2">
+      <ToggleThemeButton/>
+      <FullscreenButton />
     </div>
-    <n-layout-content embedded position="absolute" class="m-2">
+    <n-layout-content embedded position="absolute">
       <slot />
     </n-layout-content>
     <n-layout-footer bordered position="absolute" class="bottom-0">
