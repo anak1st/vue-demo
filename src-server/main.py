@@ -71,6 +71,8 @@ async def read_user(user_id: int, user: schemas.User = Depends(auth.get_user)):
 @app.post("/users/id/{user_id}/roles")
 async def update_user_roles(user_id: int, roles: dict, user: schemas.User = Depends(auth.get_user)):
     res = curd.update_user_roles(user_id, roles)
+    if not res:
+        return ERROR(101, "User not found")
     return OK(res)
 
 

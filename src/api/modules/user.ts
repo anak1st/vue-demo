@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api, type ResponseData } from '@/api/axios';
 
 
 export interface UserInfo {
   id: number,
   username: string,
-  roles: JSON,
+  roles: any,
   disabled: boolean,
 }
 

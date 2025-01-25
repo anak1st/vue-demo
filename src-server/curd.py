@@ -58,6 +58,8 @@ def get_userInDB_by_username(username: str) -> schemas.UserInDB:
 def update_user_roles(user_id: int, roles: dict) -> schemas.User:
     with Session(database.engine) as session:
         user = session.query(database.User).filter(database.User.id == user_id).first()
+        if user is None:
+            return None
         user.roles = roles
         session.commit()
         session.refresh(user)

@@ -34,24 +34,28 @@ const columns: DataTableColumns<UserInfo> = [
   {
     title: '角色',
     key: 'roles',
-    // render(row) {
-    //   const roles = row.roles.map((role) => {
-    //     return h(
-    //       NTag,
-    //       {
-    //         style: {
-    //           marginRight: '6px'
-    //         },
-    //         type: 'info',
-    //         bordered: false
-    //       },
-    //       {
-    //         default: () => role
-    //       }
-    //     )
-    //   })
-    //   return roles
-    // }
+    render(row) {
+      const roles = []
+      for (const role in row.roles) {
+        roles.push(h(
+          NTag,
+          {
+            style: {
+              marginRight: '6px'
+            },
+            type: 'info',
+            bordered: false
+          },
+          {
+            default: () => role
+          }
+        ));
+      }
+      if (roles.length === 0) {
+        return "None"
+      }
+      return roles
+    }
   },
   {
     title: '操作',
