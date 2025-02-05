@@ -51,7 +51,7 @@ async def create_user(user: schemas.UserCreate):
 
 
 @app.get("/users/all")
-async def read_users(offset: int = 0, limit: int = 100, user: schemas.User = Depends(auth.get_user)):
+async def read_users(offset: int = 0, limit: int = 100, user: schemas.User = Depends(auth.get_admin_user)):
     if limit < 0 or limit > 100:
         return ERROR(101, "Limit must be between 0 and 100")
     return OK({

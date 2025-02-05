@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 import time
 import datetime
 from fastapi import Depends, HTTPException, status
@@ -66,4 +68,5 @@ def get_admin_user(token: str = Depends(oauth2_scheme)) -> schemas.User:
     user = get_user(token)
     if user.roles.get("admin") != True:
         raise HTTPException(status_code=403, detail="Not enough permissions")
+    logger.warning(user)
     return user

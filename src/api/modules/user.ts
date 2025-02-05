@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api, type ResponseData } from '@/api/axios';
+import { AxiosError } from 'axios';
 
 
 export interface UserInfo {
@@ -42,6 +43,11 @@ export const fetchUserList = async (offset: number, count: number) => {
     }
     return res.data.data;
   } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 403) {
+        throw new Error("权限不足");
+      }
+    }
     throw error;
   }
 }

@@ -28,9 +28,14 @@ export const setupAxios = () => {
     return Promise.resolve(response);
   }, (error) => {
     // network error
-    console.log("Network error");
-    // authStore.logout();
-    // router.push("/login");
+    if (error.response.status === 401) {
+      console.log("ERROR 401");
+      authStore.logout();
+      router.push("/login");
+    }
+    if (error.response.status === 403) {
+      console.log("ERROR 403");
+    }
     return Promise.reject(error);
   });
 }

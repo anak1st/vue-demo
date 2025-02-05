@@ -102,14 +102,20 @@ const pagination = ref({
 const task = async () => {
   const offset = (pagination.value.page - 1) * pagination.value.pageSize;
   const count = pagination.value.pageSize;
-  const rsp = await fetchUserList(offset, count);
-  if (!rsp) {
-    message.error('获取用户列表失败')
-    return;
+  try {
+    const rsp = await fetchUserList(offset, count);
+    if (!rsp) {
+      message.error('获取用户列表失败')
+      return;
+    }
+    console.log(rsp);
+    data.value = rsp.users;
+    pagination.value.total = rsp.total;
+  } catch (e) {
+    if (e instanceof Error) {
+      message.error(e.message)
+    }
   }
-  console.log(rsp);
-  data.value = rsp.users;
-  pagination.value.total = rsp.total;
 }
 
 
