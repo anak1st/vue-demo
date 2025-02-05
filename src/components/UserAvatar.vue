@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { NAvatar } from 'naive-ui';
 import { useUserStore } from '@/stores'
 
