@@ -10,7 +10,11 @@ export const setupAxios = () => {
 
   api.interceptors.request.use((config) => {
     if (authStore.isLogin) {
-      config.headers.Authorization = `Bearer ${authStore.token}`;
+      if (authStore.tokenType === 'bearer') {
+        config.headers.Authorization = 'Bearer ' + authStore.token;
+      } else {
+        console.error("tokenType \"" + authStore.tokenType + "\" is not supported");
+      }
     } else {
       delete config.headers.Authorization;
     }
@@ -29,12 +33,12 @@ export const setupAxios = () => {
   }, (error) => {
     // network error
     if (error.response.status === 401) {
-      console.log("ERROR 401");
+      console.error("ERROR 401");
       authStore.logout();
       router.push("/login");
     }
     if (error.response.status === 403) {
-      console.log("ERROR 403");
+      console.error("ERROR 403");
     }
     return Promise.reject(error);
   });

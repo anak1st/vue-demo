@@ -40,8 +40,8 @@ def authenticate_user(username: str, password: str) -> bool:
 def create_access_token(username: str) -> schemas.Token:
     exp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=cfg.jwt.expire_minutes)
     data = { 
-        "sub": username,
         "exp": exp,
+        "name": username,
     }
 
     encoded_jwt = jwt.encode(data, cfg.jwt.secret_key, algorithm="HS256")
@@ -53,15 +53,15 @@ def create_access_token(username: str) -> schemas.Token:
 def get_user(token: str = Depends(oauth2_scheme)) -> schemas.User:
     try:
         payload = jwt.decode(token, cfg.jwt.secret_key, algorithms=["HS256"])
-        username: str = payload.get("sub")
+        username: str = payload.get("name")
         if username is None:
             raise ValueError("No username in token")
         user = curd.get_user_by_username(username=username)
         if user is None:
             raise ValueError("No user")
         return user
-    except:
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Invalid authentication credentials, reason: {e}")
 
 
 def get_admin_user(token: str = Depends(oauth2_scheme)) -> schemas.User:

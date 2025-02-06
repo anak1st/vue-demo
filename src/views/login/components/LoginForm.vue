@@ -76,6 +76,7 @@ const login = async () => {
   try {
     const res = await fetchLogin(model.value.username, model.value.password);
     authStore.token = res.access_token;
+    authStore.tokenType = res.token_type;
     authStore.username = model.value.username;
     authStore.password = model.value.password;
     await userStore.update(true);

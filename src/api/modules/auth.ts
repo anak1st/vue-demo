@@ -17,8 +17,10 @@ export const fetchLogin = async (username: string, password: string) => {
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      const detail = error.response?.data.detail;
-      if (detail === 'Incorrect username or password') {
+      if (error.response?.data === 'Incorrect username or password') {
+        throw new Error('用户名或密码错误');
+      }
+      if (error.response?.data?.detail === 'Incorrect username or password') {
         throw new Error('用户名或密码错误');
       }
     }

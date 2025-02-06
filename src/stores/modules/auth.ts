@@ -6,26 +6,31 @@ export const useAuthStore = defineStore('auth', () => {
   const username = ref("");
   const password = ref("");
   const token = ref("");
+  const tokenType = ref("");
 
   const logout = () => {
     token.value = "";
+    tokenType.value = "";
+    username.value = "";
+    password.value = "";
   }
 
   const isLogin = computed(() => {
-    return !!token.value && token.value.length > 10;
+    return !!token.value && !!tokenType.value;
   })
 
   return {
+    token,
+    tokenType,
     username,
     password,
-    token,
-    logout,
     isLogin,
+    logout,
   }
   
 }, {
   persist: {
     storage: localStorage,
-    pick: ['token', 'username', 'password'],
+    pick: ['token', 'tokenType', 'username', 'password'],
   }
 })
