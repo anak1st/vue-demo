@@ -19,7 +19,6 @@
   <n-button 
     type="primary" block secondary strong
     :disabled="disableClick" @click="login"
-    class="!mt-4"
   >
     登录
   </n-button>

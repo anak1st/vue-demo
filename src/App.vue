@@ -6,7 +6,7 @@
     <n-message-provider>
       <router-view v-slot="{ Component }">
         <component :is="Layout">
-          <transition>
+          <transition name="fade-slide" mode="out-in" appear>
             <keep-alive :include="keepAliveNames">
               <component :is="Component" />
             </keep-alive>
@@ -58,3 +58,21 @@ const keepAliveNames = computed(() => {
 })
 
 </script>
+
+<style scoped>
+/* transition fade-slide */
+.fade-slide-leave-active,
+.fade-slide-enter-active {
+  transition: all 0.3s;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateX(-2%);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateX(2%);
+}
+</style>

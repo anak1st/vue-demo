@@ -87,4 +87,10 @@ async def get_system_status(second = 10, aggregate_window = None):
             if record.get_field() not in results:
                 results[record.get_field()] = []
             results[record.get_field()].append(result)
+
+    # last record is not complete, so delete it
+    for key in results:
+        if len(results[key]) > 0:
+            results[key].pop()
+
     return results

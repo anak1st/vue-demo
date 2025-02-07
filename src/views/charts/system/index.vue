@@ -45,6 +45,8 @@ import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
 import { fetchSystemStatus } from '@/api/modules/system';
+import type { EChartsOption } from 'echarts';
+import type { AreaStyleOption } from 'echarts/types/src/util/types.js';
 
 
 const message = useMessage();
@@ -82,7 +84,7 @@ const red = () => colorMap.red
 // const purple = () => colorMap.purple
 
 
-const areaStyle = (c: string) => {
+const areaStyle = (c: string) : AreaStyleOption => {
   return {
     color: {
       type: 'linear',
@@ -110,15 +112,13 @@ const theme = computed(() => {
 })
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const option = ref<any>({
+const option = ref<EChartsOption>({
   title: {
     text: '系统状态',
   },
   tooltip: {
     trigger: 'axis',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    valueFormatter: (value: any) => {
+    valueFormatter: (value) => {
       // if value is number, format it to 1 decimal place
       if (typeof value === 'number') {
         return value.toFixed(1);
@@ -166,26 +166,62 @@ const option = ref<any>({
 });
 
 
-const updateOption = async (seconds: number, aggregate_window: number) => {
+let lastTime = 0;
+let lastSeconds = 0;
+let lastAggregateWindow = 0;
+
+
+const updateOption = async (seconds: number, aggregateWindow: number) => {
   try {
-    const res = await fetchSystemStatus(seconds, aggregate_window);
+    // calculate the time difference between now and lastTime
+    const now = Date.now();
+    const diff = now - lastTime;
+
+    let realSeconds = seconds;
+
+    if (lastAggregateWindow === aggregateWindow && lastSeconds === seconds) {
+      realSeconds = Math.min(realSeconds, diff / 1000);
+      realSeconds = Math.round(realSeconds);
+    }
+    
+    const res = await fetchSystemStatus(realSeconds, aggregateWindow);
     if (!res) {
       message.error('获取系统状态失败');
       return;
     }
-    const cpu_usage = res.cpu_usage.map((item) => item.value);
+    const cpu_usages = res.cpu_usage.map((item) => item.value);
     console.log(res);
-    const memory_usage = res.memory_usage.map((item) => item.value);
-    const time = res.cpu_usage.map((item) => item.localtime.split(' ')[1]);
+    const memory_usages = res.memory_usage.map((item) => item.value);
+    // const timestamps = res.cpu_usage.map((item) => item.timestamp);
+    const localtimes = res.cpu_usage.map((item) => item.localtime.split(' ')[1]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const series = option.value.series as any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const cpu_data = series[0].data as any as number[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const memory_data = series[1].data as any as number[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const xAxis = option.value.xAxis as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const xAxis_data = xAxis.data as any as string[];
 
-    series[0].data = cpu_usage;
-    series[1].data = memory_usage;
-    xAxis.data = time;
+    // add new data
+    cpu_data.push(...cpu_usages);
+    memory_data.push(...memory_usages);
+    xAxis_data.push(...localtimes);
+
+    // remove useless data
+    while (cpu_data.length > seconds / aggregate_window.value) {
+      cpu_data.shift();
+      memory_data.shift();
+      xAxis_data.shift();
+    }
+
+    lastTime = now;
+    lastSeconds = seconds;
+    lastAggregateWindow = aggregateWindow;
+
   } catch (error) {
     if (error instanceof Error) {
       message.error(error.message);

@@ -1,7 +1,6 @@
 <template>
   <n-form 
     :model="model" :rules="rules"
-    class="min-h-[200px]"
   >
     <n-form-item-row label="用户名">
       <n-input 
@@ -27,7 +26,6 @@
   <n-button 
     type="primary" block secondary strong
     :disabled="disableClick" @click="register"
-    class="!mt-4"
   >
     注册
   </n-button>
