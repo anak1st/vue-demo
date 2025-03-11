@@ -49,6 +49,7 @@ const model = ref({
   passwordRe: '',
 });
 
+
 const rules : FormRules = {
   username: {
     required: true,

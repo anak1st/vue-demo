@@ -1,11 +1,5 @@
-import { api, type ResponseData } from '@/api/axios';
+import { api } from '@/api/axios';
 import { AxiosError } from 'axios';
-
-
-interface LoginResponse {
-  access_token: string;
-  token_type: string;
-}
 
 
 export const fetchLogin = async (username: string, password: string) => {
@@ -13,7 +7,7 @@ export const fetchLogin = async (username: string, password: string) => {
     const fromData = new FormData();
     fromData.append('username', username);
     fromData.append('password', password);
-    const response = await api.post<LoginResponse>('/login', fromData);
+    const response = await api.post<Api.LoginRsp>('/login', fromData);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -31,8 +25,7 @@ export const fetchLogin = async (username: string, password: string) => {
 
 export const fetchRegister = async (username: string, password: string) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await api.post<ResponseData<any>>('/users/create', {
+    const response = await api.post<Api.R<any>>('/users/create', {
       username,
       password,
     });

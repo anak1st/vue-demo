@@ -9,11 +9,13 @@ export function createAuthGuard(router : Router) {
       if (authStore.isLogin) {
         next() 
       } else {
-        next({ name: 'Login' })
+        console.warn('fail to login, redirect to login page')
+        next({ path: '/login', query: { redirect: to.fullPath } })
       }
-    } else if (to.name === 'Login' || to.name === 'Register') {
+    } else if (to.name === 'login') {
       if (authStore.isLogin) {
-        next({ name: 'Home' }) 
+        console.warn('already login, redirect to home page')
+        next({ path: '/' })
       } else {
         next() 
       }

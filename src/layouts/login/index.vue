@@ -15,8 +15,9 @@
 
 <script setup lang="ts">
 import { NLayout, NLayoutContent, NLayoutFooter } from 'naive-ui';
-import ToggleThemeButton from '@/components/ToggleThemeButton.vue';
+import AppFooter         from '@/layouts/components/AppFooter.vue';
+
+import ToggleThemeButton from '@/components/DarkButton.vue';
 import FullscreenButton  from '@/components/FullscreenButton.vue';
-import AppFooter         from '@/components/AppFooter.vue';
 
 </script>

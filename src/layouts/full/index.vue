@@ -2,28 +2,30 @@
   <n-layout has-sider class="h-full w-full">
     <n-layout-sider 
       collapse-mode="width"
-      :collapsed-width="64"
-      :width="220"
-      :collapsed="appStore.isCollapse"
+      :collapsed-width="themeStore.theme.sider.collapsedWidth"
+      :width="themeStore.theme.sider.width"
+      :collapsed="themeStore.theme.sider.isCollapse"
       bordered
+      :inverted="themeStore.theme.sider.inverted"
       class="h-full"
+      :show-trigger="themeStore.theme.sider.showTrigger"
+      @collapse="() => themeStore.switchCollapse(false)"
+      @expand="() => themeStore.switchCollapse(true)"
     >
       <AppSider />
     </n-layout-sider>
     <n-layout class="flex flex-col relative">
-      <n-layout-header bordered >
-        <AppHeader class="h-[50px]" />
+      <n-layout-header bordered v-if="themeStore.theme.header.show || themeStore.theme.tab.show">
+        <AppHeader :style="themeStore.style.header" v-if="themeStore.theme.header.show" />
+        <div v-if="themeStore.theme.tab.show">
+          <n-divider class="custom-divider !m-0 " />
+          <AppTab    :style="themeStore.style.tab" />
+        </div>
       </n-layout-header>
-      <!-- min-height := 100% - 60px (header height) - 25px (footer height) - [2~3]px (2 lines) -->
-      <n-layout embedded style="min-height: calc(100% - 50px - 25px - 3px);">
-        <n-layout-header bordered>
-          <AppTab />
-        </n-layout-header>
-        <n-layout-content embedded class="m-2">
-          <slot />
-        </n-layout-content>
-      </n-layout>
-      <n-layout-footer bordered>
+      <n-layout-content embedded class="p-3" :style="themeStore.style.content">
+        <slot />
+      </n-layout-content>
+      <n-layout-footer bordered v-if="themeStore.theme.footer.show">
         <AppFooter />
       </n-layout-footer>
     </n-layout>
@@ -31,14 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter } from 'naive-ui';
-import AppSider  from '@/components/AppSider.vue';
-import AppHeader from '@/components/AppHeader.vue';
-import AppTab    from '@/components/AppTab.vue';
-import AppFooter from '@/components/AppFooter.vue';
-import { useAppStore } from '@/stores';
+import { NLayout, NLayoutSider, NLayoutContent, NLayoutHeader, NLayoutFooter, NDivider } from 'naive-ui';
+import AppSider  from '@/layouts/components/AppSider.vue';
+import AppHeader from '@/layouts/components/AppHeader.vue';
+import AppTab    from '@/layouts/components/AppTab.vue';
+import AppFooter from '@/layouts/components/AppFooter.vue';
+import { useThemeStore } from '@/stores';
 
-const appStore = useAppStore();
+const themeStore = useThemeStore();
 
 
 </script>
+
+
+<style scoped>
+
+</style>

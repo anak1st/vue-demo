@@ -80,7 +80,12 @@ const login = async () => {
     authStore.password = model.value.password;
     await userStore.update(true);
     message.success('登录成功');
-    router.push('/');
+    const redirect = router.currentRoute.value.query.redirect as string;
+    if (redirect) {
+      router.push(redirect);
+    } else {
+      router.push('/');
+    }
   } catch (err) {
     if (err instanceof Error) {
       message.error(err.message);

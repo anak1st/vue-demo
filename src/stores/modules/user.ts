@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { fetchUserMe, type UserInfo } from '@/api';
+import { fetchUserMe } from '@/api';
 
 
 export const useUserStore = defineStore('user', () => {
-  const userInfo = ref<UserInfo | null>(null);
+  const userInfo = ref<Api.UserInfo | null>(null);
   const lastUpdateTime = ref<number>(0);
   const updateInterval = 60; // seconds
 

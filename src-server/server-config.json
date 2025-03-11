@@ -1,0 +1,18 @@
+{
+  "port": 8100,
+  "database_url": "postgresql+psycopg://postgres:123456@localhost:5432/vue-demo",
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  },
+  "jwt": {
+    "secret_key": "vue-demo",
+    "expire_minutes": 60
+  },
+  "influxdb": {
+    "url": "http://192.168.173.103:18050",
+    "token": "Z4KTV4eG_BW7Zj6LwsSx7EHJNYHpo4ntz1eyHMlRPyuFpnpKHt2IS9UEuTtxieuHsRvceyz5khFU_Q48Mas_Tw==",
+    "org": "noorg",
+    "bucket": "vue-demo"
+  }
+}

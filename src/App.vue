@@ -1,18 +1,22 @@
 <template>
   <n-config-provider 
     :theme="theme"
+    :theme-overrides="isDark ? themeOverridesDark : themeOverridesLight"
     class="h-full w-full"
+    :locale="zhCN" :date-locale="dateZhCN"
   >
     <n-message-provider>
-      <router-view v-slot="{ Component }">
-        <component :is="Layout">
-          <transition name="fade-slide" mode="out-in" appear>
-            <keep-alive :include="keepAliveNames">
-              <component :is="Component" />
-            </keep-alive>
-          </transition>
-        </component>
-      </router-view>
+      <n-modal-provider>
+        <router-view v-slot="{ Component }">
+          <component :is="Layout">
+            <transition name="fade-slide" mode="out-in" appear>
+              <keep-alive :include="keepAliveNames" >
+                <component :is="Component" />
+              </keep-alive>
+            </transition>
+          </component>
+        </router-view>
+      </n-modal-provider>
     </n-message-provider>
   </n-config-provider>
 </template>
@@ -20,18 +24,35 @@
 <script setup lang="ts">
 import { computed, markRaw, defineAsyncComponent } from 'vue'
 import { RouterView, useRoute } from 'vue-router';
-import { NConfigProvider, NMessageProvider, darkTheme } from 'naive-ui';
+import { NConfigProvider, NMessageProvider, NModalProvider, darkTheme, zhCN, dateZhCN } from 'naive-ui';
+import type { GlobalThemeOverrides } from 'naive-ui';
 import { useDark } from '@vueuse/core';
-import { useTabStore } from './stores';
+import { useThemeStore, useTabStore } from './stores';
 
 
 const route = useRoute()
 const isDark = useDark();
-const tabStore = useTabStore()
+const tabStore = useTabStore();
+const themeStore = useThemeStore();
 
 
 const theme = computed(() => {
   return isDark.value ? darkTheme : null;
+})
+
+
+// override theme
+const themeOverridesLight = computed(() => {
+  return {
+    Menu: {
+      dividerColor: themeStore.theme.sider.inverted ? 'rgba(255, 255, 255, 0.12)' : undefined,
+    }
+  } as GlobalThemeOverrides
+})
+
+const themeOverridesDark = computed(() => {
+  return {
+  } as GlobalThemeOverrides
 })
 
 
@@ -49,7 +70,6 @@ const Layout = computed(() => {
   if (!layoutName) {
    return null 
   }
-  console.log("Layout: ", layoutName)
   return getLayout(layoutName as string)
 })
 

@@ -14,11 +14,9 @@ export const useTabStore = defineStore('tab', () => {
   const activeTabPath = ref<string>('/home')
 
   const add = (tab: Tab) => {
-    const index = tabs.value.findIndex(item => item.name === tab.name)
+    const index = tabs.value.findIndex(item => item.path === tab.path)
     if (index === -1) {
       tabs.value.push(tab)
-    } else {
-      tabs.value.splice(index, 1, tab)
     }
     activeTabPath.value = tab.path
   }
@@ -29,13 +27,20 @@ export const useTabStore = defineStore('tab', () => {
       const len = tabs.value.length
       const nextPath = tabs.value[len - 1].path
       activeTabPath.value = nextPath
-      router.push(nextPath)
+      router.push(activeTabPath.value);
     }
   }
 
   const setActive = (path: string) => {
     activeTabPath.value = path
-    router.push(path)
+    router.push(activeTabPath.value);
+  }
+
+  const clear = (go_home : boolean) => {
+    tabs.value = [];
+    if (go_home) {
+      router.push('/home');
+    }
   }
 
   return { 
@@ -43,7 +48,8 @@ export const useTabStore = defineStore('tab', () => {
     activeTabPath, 
     add, 
     remove,
-    setActive
+    setActive,
+    clear,
   }
   
 },{

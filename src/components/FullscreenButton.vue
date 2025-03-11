@@ -1,15 +1,15 @@
 <template>
   <NButton 
-    circle
+    circle type="primary" ghost bordered
     @click="toggle"
   >
     <template #icon>
       <NIcon>
         <template v-if="isFullscreen">
-          <FullscreenExitIcon />
+          <Icon name="fullscreen-exit" />
         </template>
         <template v-else>
-          <FullscreenIcon />
+          <Icon name="fullscreen" />
         </template>
       </NIcon>
     </template>
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { NButton, NIcon } from 'naive-ui';
-import { FullscreenIcon, FullscreenExitIcon } from '@/components/icons';
+import Icon from '@/components/Icon.vue';
 import { useFullscreen } from '@vueuse/core';
 
 

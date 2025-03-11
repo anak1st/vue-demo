@@ -1,19 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { api, type ResponseData } from '@/api/axios';
+import { api } from '@/api/axios';
 import { AxiosError } from 'axios';
-
-
-export interface UserInfo {
-  id: number,
-  username: string,
-  roles: any,
-  disabled: boolean,
-}
 
 
 export const fetchUserMe = async () => {
   try {
-    const rsp = await api.get<ResponseData<UserInfo>>("/users/me");
+    const rsp = await api.get<Api.R<Api.User>>("/users/me");
     if (rsp.data.code !== 0) {
       throw new Error("未知错误: [" + rsp.data.code + "] " + rsp.data.msg)
     }
@@ -24,18 +15,35 @@ export const fetchUserMe = async () => {
 }
 
 
-interface UserListResponse {
-  total: number,
-  users: UserInfo[],
+export const fetchUserList = async (page_no: number, page_size: number, ) => {
+  try {
+    const res = await api.get<Api.R<Api.Page<Api.User>>>("/users/all", {
+      params: {
+        page_no,
+        page_size,
+      }
+    });
+    if (res.data.code!== 0) {
+      throw new Error("未知错误: [" + res.data.code + "] " + res.data.msg)
+    }
+    return res.data.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response?.status === 403) {
+        throw new Error("权限不足");
+      }
+    }
+    throw error;
+  }
 }
 
 
-export const fetchUserList = async (offset: number, count: number) => {
+export const fetchRoleList = async (page_size: number, page_no: number) => {
   try {
-    const res = await api.get<ResponseData<UserListResponse>>("/users/all", {
+    const res = await api.get<Api.R<Api.Page<Api.Role>>>("/roles/all", {
       params: {
-        offset: offset,
-        count: count,
+        page_size,
+        page_no,
       }
     });
     if (res.data.code!== 0) {
