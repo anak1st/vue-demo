@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center" :style="themeStore.style.footer">
-    Copyright © 2025 冠之杰
+    Copyright © 2025 Anak1st
   </div>
 </template>
 
